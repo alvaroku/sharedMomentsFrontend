@@ -1,0 +1,41 @@
+/* login-form.component.css */
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espacio entre los elementos del formulario */
+  padding: 24px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Ancho fijo para el formulario */
+}
+
+label {
+  align-self: flex-start; /* Alinear las etiquetas a la izquierda */
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%; /* Asegurar que los inputs tengan el mismo tamaño */
+}
+
+button {
+  align-self: center; /* Centrar el botón */
+  width: 100%; /* Asegurar que el botón ocupe todo el ancho del formulario */
+}
+
+a {
+  align-self: center; /* Centrar el enlace */
+  margin-top: 16px;
+}

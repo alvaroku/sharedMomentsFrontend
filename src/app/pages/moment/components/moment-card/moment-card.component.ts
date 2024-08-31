@@ -1,0 +1,140 @@
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MomentResponse } from '../../models/moment-response.model';
+import { MomentService } from '../../services/moment.service';
+import { firstValueFrom } from 'rxjs';
+import { ButtonModule } from 'primeng/button';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+
+import { CreateMomentComponent } from '../create-moment/create-moment.component';
+import { AuthService } from '../../../auth/services/auth.service';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ResourceResponse } from '../../models/resource-response.model';
+import { GalleriaModule } from 'primeng/galleria';
+
+@Component({
+  selector: 'app-moment-card',
+  standalone: true,
+  imports: [CommonModule,ButtonModule,GalleriaModule ],
+  templateUrl: './moment-card.component.html',
+  styleUrl: './moment-card.component.css',
+  providers: []
+})
+export class MomentCardComponent implements OnInit {
+  ref: DynamicDialogRef | undefined;
+  @Input() moment!: MomentResponse;
+  @Output() actionEvent = new EventEmitter<void>();
+  currentIndex: number = 0;
+  imOwner:boolean = false;
+
+  constructor(
+    private momentService:MomentService,
+    public dialogService: DialogService,
+    private authService:AuthService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService, ) { }
+  async ngOnInit() {
+    this.imOwner = this.moment.ownerId == (await firstValueFrom(this.authService.getCurrentUserState))?.id
+    setInterval(() => {
+      this.showNextImage();
+    }, 3000);
+  }
+
+  showNextImage(): void {
+    const momentCardId = 'moment-card-'+this.moment.id;
+    const images = document.querySelectorAll(`#${momentCardId} .carousel-image`);
+    if (images.length > 0) {
+      (images[this.currentIndex] as HTMLElement).style.display = 'none';
+      this.currentIndex = (this.currentIndex + 1) % images.length;
+      (images[this.currentIndex] as HTMLElement).style.display = 'block';
+    }
+  }
+
+  editMoment(): void {
+    this.ref = this.dialogService.open(CreateMomentComponent, {
+      data: {
+          id: this.moment.id
+      },
+      header: 'Editar'
+  });
+  this.ref.onClose.subscribe((result: any) => {
+    if (result) {
+      this.moment = result.data.data;
+      this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: result.data.message });
+    }
+  });
+  }
+  confirm1(_message:string,title:string): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.confirmationService.confirm({
+        message: _message,
+        header: title,
+        icon: 'pi pi-exclamation-triangle',
+        acceptIcon: "none",
+        rejectIcon: "none",
+        rejectButtonStyleClass: "p-button-text",
+        accept: () => {
+          resolve(true); // Resolviendo la promesa con true si se acepta
+        },
+        reject: () => {
+          resolve(false); // Resolviendo la promesa con false si se rechaza
+        }
+      });
+    });
+  }
+  async deleteMoment(): Promise<void> {
+
+      try {
+        if(!await this.confirm1('¿Estás seguro de que deseas eliminar este momento?','Confirmar eliminación'))
+          return;
+        let response = await firstValueFrom(this.momentService.delete(this.moment.id))
+
+        this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
+        this.actionEvent.emit();
+      } catch (error) {
+        // Handle error
+      } finally {
+        //hideLoading();
+      }
+
+  }
+  imageData:imageData[] = []
+  displayBasic: boolean = false;
+  responsiveOptions: any[] = [
+    {
+        breakpoint: '1500px',
+        numVisible: 5
+    },
+    {
+        breakpoint: '1024px',
+        numVisible: 3
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 2
+    },
+    {
+        breakpoint: '560px',
+        numVisible: 1
+    }
+];
+  showModal(){
+    let _title = this.moment.title;
+    this.imageData = this.moment.resources.map((item: ResourceResponse) => {
+      return {
+        itemImageSrc: item.url,
+        thumbnailImageSrc: item.url,
+        alt: _title,
+        title: _title
+      };
+    });
+    this.displayBasic = true;
+  }
+}
+interface imageData{
+  itemImageSrc: string;
+  thumbnailImageSrc: string;
+  alt: string;
+  title: string;
+}

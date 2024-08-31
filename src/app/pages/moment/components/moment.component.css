@@ -1,0 +1,19 @@
+.moment-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px; /* Espacio aumentado entre las tarjetas */
+  padding: 16px; /* Espacio alrededor del contenedor */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+}
+
+/* moment.component.css */
+.tri-state-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el checkbox y el label */
+}
+
+.tri-state-container label {
+  margin: 0; /* Eliminar márgenes predeterminados */
+}

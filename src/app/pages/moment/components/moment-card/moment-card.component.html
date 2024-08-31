@@ -1,0 +1,37 @@
+<div class="moment-card" id="moment-card-{{moment.id}}">
+  <div class="carousel">
+    <img *ngFor="let res of moment.resources; let i = index" [src]="res.url" class="carousel-image" [style.display]="i === 0 ? 'block' : 'none'" (click)="showModal()">
+  </div>
+  <div class="content">
+    <h2>{{ moment.title }}</h2>
+    <p>{{ moment.description }}</p>
+    <p>{{ moment.place }}</p>
+    <p>{{ moment.date | date:'dd/MM/yyyy' }}</p>
+    <div class="buttons-container" *ngIf="imOwner">
+      <p-button class="edit-button" (click)="editMoment()">Editar</p-button>
+
+      <p-button  severity="danger" class="delete-button" (click)="deleteMoment()">Borrar</p-button>
+    </div>
+  </div>
+</div>
+
+
+<p-galleria
+        [value]="imageData"
+        [(visible)]="displayBasic"
+        [responsiveOptions]="responsiveOptions"
+        [containerStyle]="{'max-width': '50%'}"
+        [numVisible]="9"
+        [circular]="true"
+        [fullScreen]="true"
+        [showItemNavigators]="true"
+        [showThumbnails]="false">
+            <ng-template pTemplate="item" let-item>
+                <img [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
+            </ng-template>
+            <!-- <ng-template pTemplate="thumbnail" let-item>
+                <div class="grid grid-nogutter justify-content-center">
+                    <img [src]="item.thumbnailImageSrc" style="display: block;"/>
+                </div>
+            </ng-template> -->
+    </p-galleria>

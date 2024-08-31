@@ -1,0 +1,27 @@
+<p-toast />
+<p-confirmDialog />
+<div class="card flex justify-content-center">
+  <p-sidebar [(visible)]="sidebarVisible">
+      <ng-template pTemplate="header">
+          <div class="flex align-items-center gap-2">
+              <p-avatar
+                  image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                  shape="circle" />
+              <span class="font-bold">
+                 {{(currentUser | async)?.name}}
+              </span>
+          </div>
+      </ng-template>
+      <div class="card flex justify-content-center">
+        <p-panelMenu [model]="items" styleClass="w-full md:w-20rem" />
+    </div>
+      <p>
+        {{(currentUser | async)?.email}}
+      </p>
+      <p>
+        {{(currentUser | async)?.phoneNumber}}
+      </p>
+  </p-sidebar>
+  <p-button (onClick)="sidebarVisible = true" icon="pi pi-arrow-right" />
+</div>
+<router-outlet></router-outlet>

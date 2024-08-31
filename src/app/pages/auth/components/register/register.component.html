@@ -1,0 +1,54 @@
+
+<div class="login-form-container">
+  <!-- user-form.component.html -->
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <div  >
+    <label for="name">Name</label>
+    <input id="name" type="text" pInputText formControlName="name" />
+    <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+      <small class="p-error">Name is required.</small>
+    </div>
+  </div>
+
+  <div  >
+    <label for="email">Email</label>
+    <input id="email" type="text" pInputText formControlName="email" />
+    <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+      <small class="p-error">Email is required and must be valid.</small>
+    </div>
+  </div>
+
+  <div  >
+    <label for="phoneNumber">Phone Number</label>
+    <input id="phoneNumber" type="text" pInputText formControlName="phoneNumber" />
+    <div *ngIf="userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched">
+      <small class="p-error">Phone Number is required.</small>
+    </div>
+  </div>
+
+  <div  >
+    <label for="passwordHash">Password</label>
+    <input id="passwordHash" type="password" pInputText formControlName="passwordHash" />
+    <div *ngIf="userForm.get('passwordHash')?.invalid && userForm.get('passwordHash')?.touched">
+      <small class="p-error">Password is required.</small>
+    </div>
+  </div>
+
+  <div  >
+    <label for="dateOfBirth">Date of Birth</label>
+    <p-calendar id="dateOfBirth" formControlName="dateOfBirth" dateFormat="yy-mm-dd"></p-calendar>
+    <div *ngIf="userForm.get('dateOfBirth')?.invalid && userForm.get('dateOfBirth')?.touched">
+      <small class="p-error">Date of Birth is required.</small>
+    </div>
+  </div>
+
+  <!-- <div class="p-field">
+    <label for="roleId">Role</label>
+    <p-dropdown id="roleId" [options]="roles" formControlName="roleId" placeholder="Select a role"></p-dropdown>
+  </div> -->
+
+  <button type="submit" pButton label="Registrarse" [disabled]="userForm.invalid"></button>
+  <a [href]="['login']">Ingresar</a>
+</form>
+
+</div>
