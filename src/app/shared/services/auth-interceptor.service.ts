@@ -54,8 +54,19 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 function handleError(message:MessageService,error:any) {
   let finalMessage:string = ""
-  if(error.error.message){
+  if(error.error.message){//error controlado del pattern result
     finalMessage = error.error.message
+  }else if(error.error.traceId){//error de .net por no enviar algún campo requerido
+    for (const key in error.error.errors) {
+      if (error.error.errors.hasOwnProperty(key)) {
+        // Obtén la lista de mensajes para la clave actual
+        const mensajes = error.error.errors[key];
+        // Recorre cada mensaje
+        mensajes.forEach((mensaje: string) => {
+          finalMessage += mensaje + "\n";
+        });
+      }
+    }
   }else{
     finalMessage = error
   }
