@@ -18,6 +18,6 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     DialogService,
     ConfirmationService,
-    // {provide:LOCALE_ID, useValue: 'es' }
+    {provide:LOCALE_ID, useValue: 'es' }
   ]
 };

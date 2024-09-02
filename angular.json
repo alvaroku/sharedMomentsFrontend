@@ -4,6 +4,10 @@
   "newProjectRoot": "projects",
   "projects": {
     "sharedMomentsFrontend": {
+      "i18n": {
+        "sourceLocale": "es"
+      },
+
       "projectType": "application",
       "schematics": {},
       "root": "",
