@@ -16,6 +16,7 @@ import { ShareMomentRequest } from '../../models/share-moment-request.model';
 import { ShareMomentComponent } from '../modals/share-moment/share-moment.component';
 import { ResultPattern } from '../../../../shared/models/result-pattern.model';
 import { MomentUserResponse } from '../../models/moment-user-response.model';
+import { ShareMomentResponse } from '../../models/share-moment-response.model';
 
 @Component({
   selector: 'app-moment-card',
@@ -107,18 +108,24 @@ export class MomentCardComponent implements OnInit {
   async shareMoment(): Promise<void> {
     this.ref2 = this.dialogService.open(ShareMomentComponent, {
       header: 'Compartir',
-      height: '300px',
+      height: '445px',
       width: '350px',
       data: {
         _moment: this.moment
       }
   });
-  this.ref2.onClose.subscribe(async (result: ResultPattern<MomentUserResponse[]>) => {
+  this.ref2.onClose.subscribe(async (result: {result:ResultPattern<ShareMomentResponse[]>|undefined,deleteUsers:string[]}) => {
+    //no fue necesario modificar el momento ya que al pasa el objeto
+    // por referencia se actualiza automaticamente en el componente ShareMoment
     if (result) {
-      this.moment.sharedWith.push(...result.data);
+      if(result.deleteUsers.length > 0){
+        // this.moment.sharedWith = this.moment.sharedWith.filter((x: MomentUserResponse) => !result.deleteUsers.includes(x.userId));
+      }
+      if(result.result){
+       // this.moment.sharedWith.push(...result.result.data);
+      }
     }
     else{
-
     }
   });
 

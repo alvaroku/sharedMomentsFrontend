@@ -95,4 +95,7 @@ export class MomentService {
     const formattedDate = `${day}/${month}/${year}`;
     return formattedDate;
   }
+  deleteShare(userId:string,momentId:string):Observable<ResultPattern<boolean>> {
+    return this.http.delete<ResultPattern<boolean>>(`${this.baseUrl}moment/${momentId}/DeleteShare/${userId}`);
+  }
 }

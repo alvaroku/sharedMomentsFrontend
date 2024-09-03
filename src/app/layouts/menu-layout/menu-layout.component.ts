@@ -47,14 +47,24 @@ export class MenuLayoutComponent {
           items: [
               {
                   label: 'Mis momentos',
-                  icon: 'pi pi-eraser',
+                  icon: 'pi pi-book',
                   routerLink: '/my-moments'
               },
               {
-                  label: 'Compartido conmigo',
-                  icon: 'pi pi-heart',
+                  label: 'Momentos compartidos',
+                  icon: 'pi pi-copy',
                   routerLink: '/shared-moments'
-              }
+              },
+              {
+                label: 'Mis albumes',
+                icon: 'pi pi-address-book',
+                routerLink: '/my-moments'
+              },
+              {
+                label: 'Albumes compartidos',
+                icon: 'pi  pi-users',
+                routerLink: '/my-moments'
+              },
           ]
       },
       // {
@@ -66,16 +76,16 @@ export class MenuLayoutComponent {
       // },
       {
           label: 'Mi cuenta',
-          icon: 'pi pi-home',
+          icon: 'pi pi-user',
           items: [
               {
                   label: 'Perfil',
-                  icon: 'pi pi-star',
+                  icon: 'pi pi-user-edit',
                   routerLink: '/profile'
               },
               {
                   label: 'Cerrar sesión',
-                  icon: 'pi pi-bookmark',
+                  icon: 'pi pi-sign-out',
                   command: () => {
                     this.logout()
                 }

@@ -1,9 +1,9 @@
 <p-toast />
 <p-confirmDialog />
-<div class="card flex justify-content-center">
+<div class="">
   <p-sidebar [(visible)]="sidebarVisible">
       <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
+          <div class="flex-container">
               <p-avatar
                   image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
                   shape="circle" />
@@ -12,9 +12,9 @@
               </span>
           </div>
       </ng-template>
-      <div class="card flex justify-content-center">
-        <p-panelMenu [model]="items" styleClass="w-full md:w-20rem" />
-    </div>
+      <div class="">
+        <p-panelMenu [model]="items" styleClass="" />
+      </div>
       <p>
         {{(currentUser | async)?.email}}
       </p>

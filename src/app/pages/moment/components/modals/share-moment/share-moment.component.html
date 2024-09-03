@@ -11,15 +11,21 @@
         placeholder="Selecciona opciones"
         >
       </p-multiSelect>
-      <div *ngIf="shareForm.get('sharedUsersId')?.invalid && shareForm.get('sharedUsersId')?.touched">
+      <div *ngIf="shareForm.get('sharedUsersId')?.hasError('required') && shareForm.get('sharedUsersId')?.touched">
         <small class="p-error">Debes seleccionar al menos una opción.</small>
       </div>
     </div>
-<br>
+    <br>
     <button type="submit" class="submit" pButton label="Compartir" [disabled]="shareForm.invalid"></button>
-    <h3>Compartido con:</h3>
-    <div *ngFor="let user of moment?.sharedWith">
-      <p>{{user.userName}}</p>
-    </div>
+    <button  pButton label="Salir" severity="danger" class="w100 mt-5" (click)="onDialogClose()"></button>
   </form>
+  <h3>Compartido con:</h3>
+  <!-- share-moment.component.html -->
+  <div class="scroll-container">
+    <div *ngFor="let user of moment?.sharedWith" class="list-item">
+      <p class="flex-container">
+        {{user.userName}}<i (click)="deleteSharedUser(user.userId)" class="pi pi-times red-color cursor-pointer "></i>
+      </p>
+    </div>
+  </div>
 </div>

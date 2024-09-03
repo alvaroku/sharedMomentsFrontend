@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --red: #ff0000;
+  --blue: #0000ff;
+  --green: #00ff00;
+  --yellow: #ffff00;
+  --orange: #ffa500;
+  --purple: #800080;
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #808080;
+  --light-gray: #d3d3d3;
+  --dark-gray: #a9a9a9;
+}
 html {
   font-size: 14px;
 }
@@ -31,7 +44,6 @@ body {
 
 .default-form-container label {
   align-self: flex-start; /* Alinear las etiquetas a la izquierda */
-  margin-bottom: 8px;
 }
 
 .default-form-container input,.p-multiselect {
@@ -41,4 +53,45 @@ body {
 .default-form-container .submit {
   align-self: center; /* Centrar el botón */
   width: 100%; /* Asegurar que el botón ocupe todo el ancho del formulario */
+}
+
+.scroll-container {
+  max-height: 150px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;  /* Habilita el desplazamiento vertical */
+  border: 1px solid #ccc; /* Opcional: añade un borde para visualizar mejor el contenedor */
+  padding-left: 10px; /* Opcional: añade un padding para mejor apariencia */
+  padding-right: 10px;
+}
+
+.list-item {
+  border-bottom: 1px solid #ddd; /* Añade un borde inferior como separador */
+}
+
+.list-item:last-child {
+  border-bottom: none; /* Elimina el borde inferior del último elemento */
+}
+
+.flex-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el contenido del contenedor */
+}
+
+.flex-container i {
+  margin-left: 8px; /* Añade un margen izquierdo para separar el icono del texto */
+}
+
+.red-color{
+  color: var(--red);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.w100{
+  width: 100%;
+}
+
+.mt-5{
+  margin-top: 5px;
 }
