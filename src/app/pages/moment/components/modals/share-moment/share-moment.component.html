@@ -1,0 +1,25 @@
+<!-- login-form.component.html -->
+<div class="default-form-container ">
+  <form [formGroup]="shareForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="options">Selecciona opciones</label>
+      <p-multiSelect
+        id="options"
+        [options]="options"
+        optionLabel="label"
+        formControlName="sharedUsersId"
+        placeholder="Selecciona opciones"
+        >
+      </p-multiSelect>
+      <div *ngIf="shareForm.get('sharedUsersId')?.invalid && shareForm.get('sharedUsersId')?.touched">
+        <small class="p-error">Debes seleccionar al menos una opción.</small>
+      </div>
+    </div>
+<br>
+    <button type="submit" class="submit" pButton label="Compartir" [disabled]="shareForm.invalid"></button>
+    <h3>Compartido con:</h3>
+    <div *ngFor="let user of moment?.sharedWith">
+      <p>{{user.userName}}</p>
+    </div>
+  </form>
+</div>

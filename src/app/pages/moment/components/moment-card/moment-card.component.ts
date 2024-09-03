@@ -12,6 +12,10 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ResourceResponse } from '../../models/resource-response.model';
 import { GalleriaModule } from 'primeng/galleria';
+import { ShareMomentRequest } from '../../models/share-moment-request.model';
+import { ShareMomentComponent } from '../modals/share-moment/share-moment.component';
+import { ResultPattern } from '../../../../shared/models/result-pattern.model';
+import { MomentUserResponse } from '../../models/moment-user-response.model';
 
 @Component({
   selector: 'app-moment-card',
@@ -22,9 +26,10 @@ import { GalleriaModule } from 'primeng/galleria';
   providers: []
 })
 export class MomentCardComponent implements OnInit {
-  ref: DynamicDialogRef | undefined;
+  ref: DynamicDialogRef<CreateMomentComponent> | undefined;
+  ref2: DynamicDialogRef<ShareMomentComponent> | undefined;
   @Input() moment!: MomentResponse;
-  @Output() actionEvent = new EventEmitter<void>();
+  @Output() reloadEvent = new EventEmitter<void>();
   currentIndex: number = 0;
   imOwner:boolean = false;
 
@@ -60,8 +65,8 @@ export class MomentCardComponent implements OnInit {
   });
   this.ref.onClose.subscribe((result: any) => {
     if (result) {
-      this.moment = result.data.data;
-      this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: result.data.message });
+      this.moment = result.data;
+
     }
   });
   }
@@ -91,7 +96,7 @@ export class MomentCardComponent implements OnInit {
         let response = await firstValueFrom(this.momentService.delete(this.moment.id))
 
         this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
-        this.actionEvent.emit();
+        this.reloadEvent.emit();
       } catch (error) {
         // Handle error
       } finally {
@@ -99,6 +104,25 @@ export class MomentCardComponent implements OnInit {
       }
 
   }
+  async shareMoment(): Promise<void> {
+    this.ref2 = this.dialogService.open(ShareMomentComponent, {
+      header: 'Compartir',
+      height: '300px',
+      data: {
+        _moment: this.moment
+      }
+  });
+  this.ref2.onClose.subscribe(async (result: ResultPattern<MomentUserResponse[]>) => {
+    if (result) {
+      this.moment.sharedWith.push(...result.data);
+    }
+    else{
+
+    }
+  });
+
+
+}
   imageData:imageData[] = []
   displayBasic: boolean = false;
   responsiveOptions: any[] = [

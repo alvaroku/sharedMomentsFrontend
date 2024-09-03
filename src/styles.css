@@ -20,3 +20,17 @@ body {
   text-align: center; /* Alinear el texto al centro */
   margin: 20px 0; /* Márgenes superior e inferior */
 }
+
+.default-form-container label {
+  align-self: flex-start; /* Alinear las etiquetas a la izquierda */
+  margin-bottom: 8px;
+}
+
+.default-form-container input,.p-multiselect {
+  width: 100%; /* Asegurar que los inputs tengan el mismo tamaño */
+}
+
+.default-form-container .submit {
+  align-self: center; /* Centrar el botón */
+  width: 100%; /* Asegurar que el botón ocupe todo el ancho del formulario */
+}

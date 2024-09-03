@@ -1,3 +1,4 @@
+import { MomentUserResponse } from "./moment-user-response.model";
 import { ResourceResponse } from "./resource-response.model";
 
 export interface MomentResponse {
@@ -11,4 +12,5 @@ export interface MomentResponse {
   albumId?: string;
   album?: string;
   resources: ResourceResponse[];
+  sharedWith: MomentUserResponse[];
 }

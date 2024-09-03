@@ -8,9 +8,9 @@
     <p>{{ moment.place }}</p>
     <p>{{ moment.date | date:'dd/MM/yyyy' }}</p>
     <div class="buttons-container" *ngIf="imOwner">
-      <p-button class="edit-button" (click)="editMoment()">Editar</p-button>
-
-      <p-button  severity="danger" class="delete-button" (click)="deleteMoment()">Borrar</p-button>
+      <p-button icon="pi pi-pen-to-square" (click)="editMoment()"></p-button>
+      <p-button icon="pi pi-trash"  severity="danger" (click)="deleteMoment()"></p-button>
+      <p-button icon="pi pi-share-alt"  severity="success" (click)="shareMoment()"></p-button>
     </div>
   </div>
 </div>

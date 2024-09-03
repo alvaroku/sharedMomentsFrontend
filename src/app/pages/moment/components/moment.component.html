@@ -22,7 +22,7 @@
 
 <div class="moment-cards-container">
   @for (item of moments; track $index) {
-    <app-moment-card [moment]="item" (actionEvent)="loadMoments()" ></app-moment-card>
+    <app-moment-card [moment]="item" (reloadEvent)="loadMoments()" ></app-moment-card>
   }
 </div>
 

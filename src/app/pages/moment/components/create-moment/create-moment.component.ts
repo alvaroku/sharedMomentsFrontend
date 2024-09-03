@@ -48,7 +48,7 @@ export class CreateMomentComponent {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private resourceService:ResourceService,
-    public ref: DynamicDialogRef, public config: DynamicDialogConfig
+    public ref: DynamicDialogRef<CreateMomentComponent>, public config: DynamicDialogConfig
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +97,7 @@ export class CreateMomentComponent {
       } else {
         response = await firstValueFrom(this.momentService.update(this.config.data.id,request, this.fileList));
       }
-
+      this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.close(response);
     } catch (error) {
     } finally {
@@ -161,8 +161,7 @@ export class CreateMomentComponent {
   }
 
   close(data: ResultPattern<MomentResponse>): void {
-  const result = { isUpdate: this.id != null,data };
-  this.ref.close(result);
+  this.ref.close(data);
   }
   confirm1(_message:string,title:string): Promise<boolean> {
     return new Promise((resolve) => {

@@ -15,6 +15,7 @@ import { DefaultFilter } from '../../../shared/models/default-filter.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { MomentUserResponse } from '../models/moment-user-response.model';
 
 @Component({
   selector: 'app-moment',
@@ -49,8 +50,6 @@ export class MomentComponent implements OnInit {
   this.ref.onClose.subscribe(async (result: any) => {
     if (result) {
       await this.loadMoments();
-
-      this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: result.data.message });
     }
   });
   }

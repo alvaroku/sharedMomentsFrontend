@@ -7,6 +7,8 @@ import { ResultPattern } from '../../../shared/models/result-pattern.model';
 import { PaginateResponse } from '../../../shared/models/paginate-response.model';
 import { MomentResponse } from '../models/moment-response.model';
 import { MomentRequest } from '../models/moment-request.model';
+import { ShareMomentRequest } from '../models/share-moment-request.model';
+import { ShareMomentResponse } from '../models/share-moment-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +70,9 @@ export class MomentService {
   delete(id:string):Observable<ResultPattern<boolean>> {
 
     return this.http.delete<ResultPattern<boolean>>(`${this.baseUrl}moment/${id}`);
+  }
+  share(id:string,payload:ShareMomentRequest):Observable<ResultPattern<ShareMomentResponse[]>> {
+    return this.http.post<ResultPattern<ShareMomentResponse[]>>(`${this.baseUrl}moment/${id}/share`,payload);
   }
   appendFormattedDate(date: Date): string {
     // Extraer el día, mes y año de la fecha
