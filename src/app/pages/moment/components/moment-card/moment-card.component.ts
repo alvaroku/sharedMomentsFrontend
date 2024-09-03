@@ -108,6 +108,7 @@ export class MomentCardComponent implements OnInit {
     this.ref2 = this.dialogService.open(ShareMomentComponent, {
       header: 'Compartir',
       height: '300px',
+      width: '350px',
       data: {
         _moment: this.moment
       }

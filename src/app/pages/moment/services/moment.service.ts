@@ -31,7 +31,18 @@ export class MomentService {
     });
     return this.http.get<ResultPattern<PaginateResponse<MomentResponse>>>(`${this.baseUrl}moment`,{params});
   }
+  getSharedWithMe(request:DefaultFilter):Observable<ResultPattern<PaginateResponse<MomentResponse>>> {
+    let params = new HttpParams();
 
+    // Convertir las propiedades del objeto request a parámetros de URL
+    Object.keys(request).forEach(key => {
+      const value = request[key as keyof DefaultFilter];
+      if (value !== undefined && value !== null) {
+        params = params.set(key, value.toString());
+      }
+    });
+    return this.http.get<ResultPattern<PaginateResponse<MomentResponse>>>(`${this.baseUrl}moment/GetSharedWithMe`,{params});
+  }
   create(data:MomentRequest,fileList:File[]):Observable<ResultPattern<MomentResponse>> {
     const formData = new FormData();
     formData.append('title', data.title);

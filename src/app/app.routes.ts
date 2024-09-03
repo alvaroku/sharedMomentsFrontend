@@ -4,7 +4,9 @@ import { SimpleLayoutComponent } from './layouts/simple-layout/simple-layout.com
 import { LoginComponent } from './pages/auth/components/login/login.component';
 import { RegisterComponent } from './pages/auth/components/register/register.component';
 import { HomeComponent } from './pages/home/components/home/home.component';
-import { MomentComponent } from './pages/moment/components/moment.component';
+import {  MyMomentsComponent } from './pages/moment/components/my-moments/my-moments.component';
+import { SharedMomentsComponent } from './pages/moment/components/shared-moments/shared-moments.component';
+
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -13,7 +15,8 @@ export const routes: Routes = [
     component: MenuLayoutComponent,
     children: [
        { path: 'home', component: HomeComponent },
-       { path: 'moment', component: MomentComponent },
+       { path: 'my-moments', component: MyMomentsComponent },
+       { path: 'shared-moments', component: SharedMomentsComponent },
        // Otras rutas que necesiten el menú
 
      ]

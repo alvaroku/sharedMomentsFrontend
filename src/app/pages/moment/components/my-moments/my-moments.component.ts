@@ -1,31 +1,35 @@
-import { MomentService } from './../services/moment.service';
+
 import { Component, OnInit } from '@angular/core';
-import { MomentCardComponent } from './moment-card/moment-card.component';
-import { MomentResponse } from '../models/moment-response.model';
-import { ResultPattern } from '../../../shared/models/result-pattern.model';
-import { PaginateResponse } from '../../../shared/models/paginate-response.model';
+
 import { firstValueFrom } from 'rxjs';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CreateMomentComponent } from './create-moment/create-moment.component';
+
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { PaginatorModule } from 'primeng/paginator';
-import { PaginatorEvent } from '../../../shared/models/paginator-event.model';
-import { DefaultFilter } from '../../../shared/models/default-filter.model';
+
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
-import { MomentUserResponse } from '../models/moment-user-response.model';
+import { MomentCardComponent } from '../moment-card/moment-card.component';
+import { DefaultFilter } from '../../../../shared/models/default-filter.model';
+import { MomentResponse } from '../../models/moment-response.model';
+import { MomentService } from '../../services/moment.service';
+import { PaginateResponse } from '../../../../shared/models/paginate-response.model';
+import { ResultPattern } from '../../../../shared/models/result-pattern.model';
+import { CreateMomentComponent } from '../create-moment/create-moment.component';
+import { PaginatorEvent } from '../../../../shared/models/paginator-event.model';
+
 
 @Component({
-  selector: 'app-moment',
+  selector: 'app-my-moments',
   standalone: true,
   imports: [CommonModule,MomentCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule  ],
-  templateUrl: './moment.component.html',
-  styleUrl: './moment.component.css',
+  templateUrl: './my-moments.component.html',
+  styleUrl: './my-moments.component.css',
   providers: []
 })
-export class MomentComponent implements OnInit {
+export class MyMomentsComponent implements OnInit {
   ref: DynamicDialogRef | undefined;
 
   defaultFilter:DefaultFilter = { pageNumber: 1, pageSize: 4,status:true,search:undefined };

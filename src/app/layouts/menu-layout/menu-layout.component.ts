@@ -46,14 +46,14 @@ export class MenuLayoutComponent {
           icon: 'pi pi-home',
           items: [
               {
-                  label: 'Momentos',
+                  label: 'Mis momentos',
                   icon: 'pi pi-eraser',
-                  routerLink: '/moment'
+                  routerLink: '/my-moments'
               },
               {
-                  label: 'Perfil',
+                  label: 'Compartido conmigo',
                   icon: 'pi pi-heart',
-                  routerLink: '/moment'
+                  routerLink: '/shared-moments'
               }
           ]
       },

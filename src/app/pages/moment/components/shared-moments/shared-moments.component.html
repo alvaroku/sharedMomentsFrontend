@@ -1,0 +1,22 @@
+<p class="title">Momentos compartidos</p>
+
+<input type="text" placeholder="Buscar" pInputText [(ngModel)]="defaultFilter.search"/>
+<p-button icon="pi pi-times" severity="danger" *ngIf="defaultFilter.search"   (click)="defaultFilter.search=undefined"></p-button>
+<p-button icon="pi pi-search"  (click)="search()"></p-button>
+
+<br><br>
+
+<div class="moment-cards-container">
+  @for (item of moments; track $index) {
+    <app-moment-card [moment]="item"></app-moment-card>
+  }
+</div>
+
+<p-paginator
+  (onPageChange)="onPageChange($event)"
+  [first]="paginateComponent.first"
+  [rows]="paginateComponent.rows"
+  [totalRecords]="paginateComponent.totalRecords"
+  [rowsPerPageOptions]="[4,5,10, 20, 30]">
+</p-paginator>
+
