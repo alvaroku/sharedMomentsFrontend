@@ -1,4 +1,4 @@
-<div class="moment-card" id="moment-card-{{moment.id}}">
+<div class="custom-card" id="moment-card-{{moment.id}}">
   <div class="carousel">
     <img *ngFor="let res of moment.resources; let i = index" [src]="res.url" class="carousel-image" [style.display]="i === 0 ? 'block' : 'none'" (click)="showModal()">
   </div>

@@ -1,4 +1,4 @@
-<p class="title">Momentos compartidos</p>
+<p class="title">Albumes compartidos</p>
 
 <input type="text" placeholder="Buscar" pInputText [(ngModel)]="defaultFilter.search"/>
 <p-button icon="pi pi-times" severity="danger" *ngIf="defaultFilter.search"   (click)="defaultFilter.search=undefined"></p-button>
@@ -7,8 +7,8 @@
 <br><br>
 
 <div class="center-cards-container">
-  @for (item of moments; track $index) {
-    <app-moment-card [moment]="item"></app-moment-card>
+  @for (item of albums; track $index) {
+    <app-album-card [album]="item"></app-album-card>
   }
 </div>
 

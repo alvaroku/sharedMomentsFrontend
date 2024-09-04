@@ -1,45 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ResultPattern } from '../../../../../shared/models/result-pattern.model';
-import { MomentResponse } from '../../../models/moment-response.model';
-import { CommonModule } from '@angular/common';
+import { AlbumResponse } from '../../../models/album-response.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ShareMomentRequest } from '../../../models/share-moment-request.model';
 import { DataDropDown } from '../../../../../shared/models/data-dropdown.model';
-import { firstValueFrom } from 'rxjs';
-import { MomentService } from '../../../services/moment.service';
-import { ButtonModule } from 'primeng/button';
+import { ResultPattern } from '../../../../../shared/models/result-pattern.model';
+import { ShareAlbumResponse } from '../../../models/share-album-response.model';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AlbumService } from '../../../services/album.service';
 import { UserService } from '../../../../user/services/user.service';
-import { ShareMomentResponse } from '../../../models/share-moment-response.model';
-import { MomentUserResponse } from '../../../models/moment-user-response.model';
-import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { firstValueFrom } from 'rxjs';
+import { AlbumUserResponse } from '../../../models/album-user-response.model';
+import { ShareAlbumRequest } from '../../../models/share-album-request.model';
+import { CommonModule } from '@angular/common';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
-  selector: 'app-share-moment',
+  selector: 'app-share-album',
   standalone: true,
   imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule],
-  templateUrl: './share-moment.component.html',
-  styleUrl: './share-moment.component.css'
+  templateUrl: './share-album.component.html',
+  styleUrl: './share-album.component.css'
 })
-export class ShareMomentComponent implements OnInit {
-  moment: MomentResponse | null = null;
+export class ShareAlbumComponent implements OnInit {
+  album: AlbumResponse | null = null;
   shareForm!: FormGroup;
   options: DataDropDown[] = [];
   allOptions: DataDropDown[] = [];
-  resultShared:{result:ResultPattern<ShareMomentResponse[]>,deleteUsers:string[]}
+  resultShared:{result:ResultPattern<ShareAlbumResponse[]>,deleteUsers:string[]}
   = {result:{data:[],message:'',isSuccess:false,statusCode:0},deleteUsers:[]}
   constructor(
     private config: DynamicDialogConfig,
-    private ref: DynamicDialogRef<ShareMomentComponent>,
+    private ref: DynamicDialogRef<ShareAlbumComponent>,
     private fb: FormBuilder,
-    private momentService:MomentService,
+    private albumService:AlbumService,
     private messageService: MessageService,
     private userService:UserService,
     private confirmationService: ConfirmationService
   ) {
-    this.moment = this.config.data._moment
+    this.album = this.config.data._album
    }
 
    async ngOnInit() {
@@ -59,17 +58,17 @@ export class ShareMomentComponent implements OnInit {
    }
 async getOptionUsers(){
   this.options = this.allOptions.filter((option: DataDropDown) => {
-    return !this.moment?.sharedWith.some((sharedUser: MomentUserResponse) => sharedUser.userId === option.id);
+    return !this.album?.sharedWith.some((sharedUser: AlbumUserResponse) => sharedUser.userId === option.id);
   });
 }
   async onSubmit() {
     if (this.shareForm.valid) {
        try {
 
-        let payload:ShareMomentRequest= {sharedUsersId:this.shareForm.value.sharedUsersId.map((x:DataDropDown)=>x.id)}
-       let response:ResultPattern<ShareMomentResponse[]> = await firstValueFrom(this.momentService.share(this.moment?.id??'',payload))
+        let payload:ShareAlbumRequest= {sharedUsersId:this.shareForm.value.sharedUsersId.map((x:DataDropDown)=>x.id)}
+       let response:ResultPattern<ShareAlbumResponse[]> = await firstValueFrom(this.albumService.share(this.album?.id??'',payload))
        this.resultShared.result = response;
-       this.moment?.sharedWith.push(...response.data)
+       this.album?.sharedWith.push(...response.data)
        this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
        this.shareForm.reset();
        this.getOptionUsers()
@@ -100,12 +99,12 @@ async getOptionUsers(){
     });
   }
   async deleteSharedUser(userId:string){
-    if(!await this.confirm1('¿Estás seguro de que deseas dejar de compartir este momento con el usuario?','Confirmar eliminación'))
+    if(!await this.confirm1('¿Estás seguro de que deseas dejar de compartir este albúm con el usuario?','Confirmar eliminación'))
       return
     try{
-      let response:ResultPattern<boolean> = await firstValueFrom(this.momentService.deleteShare(userId,this.moment?.id??''))
+      let response:ResultPattern<boolean> = await firstValueFrom(this.albumService.deleteShare(userId,this.album?.id??''))
       this.resultShared.deleteUsers.push(userId)
-      this.moment!.sharedWith = this.moment!.sharedWith.filter((x: MomentUserResponse) => x.userId !== userId);
+      this.album!.sharedWith = this.album!.sharedWith.filter((x: AlbumUserResponse) => x.userId !== userId);
       this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.getOptionUsers()
     }catch(error){}

@@ -1,0 +1,31 @@
+<!-- login-form.component.html -->
+<div class="default-form-container ">
+  <form [formGroup]="shareForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="options">Selecciona opciones</label>
+      <p-multiSelect
+        id="options"
+        [options]="options"
+        optionLabel="label"
+        formControlName="sharedUsersId"
+        placeholder="Selecciona opciones"
+        >
+      </p-multiSelect>
+      <div *ngIf="shareForm.get('sharedUsersId')?.hasError('required') && shareForm.get('sharedUsersId')?.touched">
+        <small class="p-error">Debes seleccionar al menos una opción.</small>
+      </div>
+    </div>
+    <br>
+    <button type="submit" class="submit" pButton label="Compartir" [disabled]="shareForm.invalid"></button>
+    <button  pButton label="Salir" severity="danger" class="w100 mt-5" (click)="onDialogClose()"></button>
+  </form>
+  <h3>Compartido con:</h3>
+  <!-- share-moment.component.html -->
+  <div class="scroll-container">
+    <div *ngFor="let user of album?.sharedWith" class="list-item">
+      <p class="flex-container">
+        {{user.userName}}<i (click)="deleteSharedUser(user.userId)" class="pi pi-times red-color cursor-pointer "></i>
+      </p>
+    </div>
+  </div>
+</div>

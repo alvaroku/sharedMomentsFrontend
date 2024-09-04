@@ -1,0 +1,15 @@
+<div class="default-form-container ">
+  <form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
+    <div class="p-field">
+      <label for="moment-title">Nombre del album:</label>
+      <input id="moment-title" type="text" pInputText formControlName="name" required />
+    </div>
+
+    <div class="p-field">
+      <label for="moment-description">Descripción:</label>
+      <textarea id="moment-description" pInputTextarea formControlName="description" required></textarea>
+    </div>
+    <button pButton type="submit" class="submit" label="Guardar" [disabled]="albumForm.invalid"></button>
+  </form>
+
+</div>

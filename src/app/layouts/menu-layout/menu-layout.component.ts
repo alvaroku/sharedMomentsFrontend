@@ -58,12 +58,12 @@ export class MenuLayoutComponent {
               {
                 label: 'Mis albumes',
                 icon: 'pi pi-address-book',
-                routerLink: '/my-moments'
+                routerLink: '/my-albums'
               },
               {
                 label: 'Albumes compartidos',
                 icon: 'pi  pi-users',
-                routerLink: '/my-moments'
+                routerLink: '/shared-albums'
               },
           ]
       },

@@ -96,6 +96,6 @@ export class MomentService {
     return formattedDate;
   }
   deleteShare(userId:string,momentId:string):Observable<ResultPattern<boolean>> {
-    return this.http.delete<ResultPattern<boolean>>(`${this.baseUrl}moment/${momentId}/DeleteShare/${userId}`);
+    return this.http.delete<ResultPattern<boolean>>(`${this.baseUrl}moment/${momentId}/deleteShare/${userId}`);
   }
 }

@@ -1,5 +1,5 @@
-<p class="title">Mis momentos</p>
-<p-button icon="pi pi-plus"  (click)="createMoment()"></p-button>
+<p class="title">Mis albumes</p>
+<p-button icon="pi pi-plus"  (click)="createAlbum()"></p-button>
 <input type="text" placeholder="Buscar" pInputText [(ngModel)]="defaultFilter.search"/>
 <p-button icon="pi pi-times" severity="danger" *ngIf="defaultFilter.search"   (click)="defaultFilter.search=undefined"></p-button>
 <p-button icon="pi pi-search"  (click)="search()"></p-button>
@@ -21,8 +21,8 @@
 
 
 <div class="center-cards-container">
-  @for (item of moments; track $index) {
-    <app-moment-card [moment]="item" (reloadEvent)="loadMoments()" ></app-moment-card>
+  @for (item of albums; track $index) {
+    <app-album-card [album]="item" (reloadEvent)="loadData()" ></app-album-card>
   }
 </div>
 

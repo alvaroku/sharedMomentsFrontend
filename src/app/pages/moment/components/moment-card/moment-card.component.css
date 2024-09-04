@@ -1,12 +1,3 @@
-.moment-card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  width: 300px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
 .carousel {
   position: relative;
   width: 100%;
@@ -22,30 +13,5 @@
   left: 0;
   transition: opacity 0.5s;
   object-fit: cover; /* Ajusta la imagen sin distorsionarla */
-}
-
-.moment-card .content {
-  padding: 1rem;
-}
-
-.moment-card h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
-}
-
-.moment-card p {
-  margin: 0;
-  color: #555;
-}
-
-.moment-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.buttons-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
 }
 

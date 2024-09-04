@@ -6,6 +6,8 @@ import { RegisterComponent } from './pages/auth/components/register/register.com
 import { HomeComponent } from './pages/home/components/home/home.component';
 import {  MyMomentsComponent } from './pages/moment/components/my-moments/my-moments.component';
 import { SharedMomentsComponent } from './pages/moment/components/shared-moments/shared-moments.component';
+import { MyAlbumsComponent } from './pages/album/components/my-albums/my-albums.component';
+import { SharedAlbumsComponent } from './pages/album/components/shared-albums/shared-albums.component';
 
 
 export const routes: Routes = [
@@ -17,6 +19,8 @@ export const routes: Routes = [
        { path: 'home', component: HomeComponent },
        { path: 'my-moments', component: MyMomentsComponent },
        { path: 'shared-moments', component: SharedMomentsComponent },
+       { path: 'my-albums', component: MyAlbumsComponent },
+       { path: 'shared-albums', component: SharedAlbumsComponent },
        // Otras rutas que necesiten el menú
 
      ]
