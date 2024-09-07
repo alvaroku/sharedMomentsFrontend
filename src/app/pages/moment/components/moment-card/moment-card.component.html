@@ -11,6 +11,7 @@
       <p-button icon="pi pi-pen-to-square" (click)="editMoment()"></p-button>
       <p-button icon="pi pi-trash"  severity="danger" (click)="deleteMoment()"></p-button>
       <p-button icon="pi pi-share-alt"  severity="success" (click)="shareMoment()"></p-button>
+      <p-button *ngIf="!moment.albumId" icon="pi pi-address-book"  severity="info"  ></p-button>
     </div>
     <div class="buttons-container" *ngIf="!imOwner">
       <span><b>Compartido por: </b><span>{{moment.ownerName}}</span></span>
