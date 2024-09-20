@@ -21,7 +21,7 @@
 
   <div class="p-field">
     <label for="moment-images">Imágenes:</label>
-    <p-fileUpload name="images" customUpload [showUploadButton]="false" [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove($event)" multiple accept="image/*"></p-fileUpload>
+    <p-fileUpload name="images" chooseLabel="Seleccionar foto" customUpload [showUploadButton]="false" [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove($event)" multiple accept="image/*"></p-fileUpload>
   </div>
 
   <div id="image-preview-container">

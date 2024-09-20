@@ -39,7 +39,7 @@ export class CreateMomentComponent {
   momentForm!: FormGroup;
   fileList: File[] = [];
   preloadedImages: any[] = [];
-  moment: any = null;
+  ///moment: any = null;
   id: string | null = null;
 
   constructor(
@@ -109,15 +109,15 @@ export class CreateMomentComponent {
     try {
       this.showLoading();
       const response:ResultPattern<MomentResponse>= await firstValueFrom(this.momentService.getById(this.id??""));
-      this.moment = response.data;
+      //this.moment = response.data;
       this.momentForm.patchValue({
-        title: this.moment.title,
-        description: this.moment.description,
-        date: new Date(this.moment.date),
-        place: this.moment.place
+        title: response.data.title,
+        description: response.data.description,
+        date: new Date(response.data.date),
+        place: response.data.place
       });
 
-      this.preloadedImages = this.moment.resources;
+      this.preloadedImages = response.data.resources;
 
       this.verifyRequiredFileForUpdate();
     } catch (error) {

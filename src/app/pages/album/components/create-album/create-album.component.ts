@@ -30,7 +30,8 @@ import { firstValueFrom } from 'rxjs';
 export class CreateAlbumComponent {
   albumForm!: FormGroup;
 
-  album: AlbumResponse|null = null;
+  album:string | null = null;
+
 
 
   constructor(
@@ -66,9 +67,9 @@ export class CreateAlbumComponent {
       if (this.album == null) {
         response = await firstValueFrom(this.albumService.create(request));
       } else {
-        response = await firstValueFrom(this.albumService.update(this.album?.id??'',request));
+        response = await firstValueFrom(this.albumService.update(this.album??'',request));
       }
-      this.album = response.data;
+      //this.album = response.data;
       this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.close(response);
     } catch (error) {
@@ -80,11 +81,11 @@ export class CreateAlbumComponent {
   async loadForUpdate(): Promise<void> {
     try {
       this.showLoading();
-      //const response:ResultPattern<AlbumResponse>= await firstValueFrom(this.albumService.getById(this.id??""));
+      const response:ResultPattern<AlbumResponse>= await firstValueFrom(this.albumService.getById(this.album??""));
       //this.moment = response.data;
       this.albumForm.patchValue({
-        name: this.album?.name,
-        description: this.album?.description,
+        name: response.data.name,
+        description:response.data.description,
       });
 
     } catch (error) {

@@ -9,6 +9,7 @@ import { SharedMomentsComponent } from './pages/moment/components/shared-moments
 import { MyAlbumsComponent } from './pages/album/components/my-albums/my-albums.component';
 import { SharedAlbumsComponent } from './pages/album/components/shared-albums/shared-albums.component';
 import { ProfileComponent } from './pages/user/components/profile/profile.component';
+import { MomentsByAlbumComponent } from './pages/moment/components/moments-by-album/moments-by-album.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,9 @@ export const routes: Routes = [
        { path: 'home', component: HomeComponent },
        { path: 'my-moments', component: MyMomentsComponent },
        { path: 'shared-moments', component: SharedMomentsComponent },
+
+       { path: 'moments-by-album/:albumId', component: MomentsByAlbumComponent },
+
        { path: 'my-albums', component: MyAlbumsComponent },
        { path: 'shared-albums', component: SharedAlbumsComponent },
        { path: 'profile', component: ProfileComponent },

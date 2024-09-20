@@ -46,7 +46,7 @@ body {
   align-self: flex-start; /* Alinear las etiquetas a la izquierda */
 }
 
-.default-form-container input,.p-multiselect,textarea {
+.default-form-container input,.p-multiselect,.p-dropdown ,textarea {
   width: 100%; /* Asegurar que los inputs tengan el mismo tamaño */
 }
 

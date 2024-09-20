@@ -11,6 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { firstValueFrom } from 'rxjs';
 import { ResultPattern } from '../../../../shared/models/result-pattern.model';
 import { ShareAlbumResponse } from '../../models/share-album-response.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-album-card',
@@ -31,7 +32,9 @@ export class AlbumCardComponent implements OnInit {
     public dialogService: DialogService,
     private authService:AuthService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService, ) { }
+    private confirmationService: ConfirmationService,
+    private router: Router
+   ) { }
   async ngOnInit() {
     this.imOwner = this.album.ownerId == (await firstValueFrom(this.authService.getCurrentUserState))?.id
   }
@@ -41,7 +44,7 @@ export class AlbumCardComponent implements OnInit {
   editAlbum(): void {
     this.ref = this.dialogService.open(CreateAlbumComponent, {
       data: {
-          _album: this.album
+          _album: this.album.id
       },
       header: 'Editar'
   });
@@ -109,7 +112,8 @@ export class AlbumCardComponent implements OnInit {
     else{
     }
   });
-
-
+}
+navigateToAlbum(albumId: string): void {
+  this.router.navigate(['/moments-by-album', albumId]);
 }
 }

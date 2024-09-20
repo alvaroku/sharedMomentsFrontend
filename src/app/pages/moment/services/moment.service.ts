@@ -9,6 +9,9 @@ import { MomentResponse } from '../models/moment-response.model';
 import { MomentRequest } from '../models/moment-request.model';
 import { ShareMomentRequest } from '../models/share-moment-request.model';
 import { ShareMomentResponse } from '../models/share-moment-response.model';
+import { AddToAlbumRequest } from '../models/add-to-album-request.model';
+import { AddToAlbumResponse } from '../models/add-to-album-response.model';
+import { FilterMomentParams } from '../models/filter-moment-params.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +22,7 @@ export class MomentService {
   constructor(private http:HttpClient){
   }
 
-  getAll(request:DefaultFilter):Observable<ResultPattern<PaginateResponse<MomentResponse>>> {
+  getMoments(request:FilterMomentParams):Observable<ResultPattern<PaginateResponse<MomentResponse>>> {
     let params = new HttpParams();
 
     // Convertir las propiedades del objeto request a parámetros de URL
@@ -29,9 +32,9 @@ export class MomentService {
         params = params.set(key, value.toString());
       }
     });
-    return this.http.get<ResultPattern<PaginateResponse<MomentResponse>>>(`${this.baseUrl}moment`,{params});
+    return this.http.get<ResultPattern<PaginateResponse<MomentResponse>>>(`${this.baseUrl}moment/GetMoments`,{params});
   }
-  getSharedWithMe(request:DefaultFilter):Observable<ResultPattern<PaginateResponse<MomentResponse>>> {
+  getSharedWithMe(request:FilterMomentParams):Observable<ResultPattern<PaginateResponse<MomentResponse>>> {
     let params = new HttpParams();
 
     // Convertir las propiedades del objeto request a parámetros de URL
@@ -97,5 +100,8 @@ export class MomentService {
   }
   deleteShare(userId:string,momentId:string):Observable<ResultPattern<boolean>> {
     return this.http.delete<ResultPattern<boolean>>(`${this.baseUrl}moment/${momentId}/deleteShare/${userId}`);
+  }
+  addToAlbum(data:AddToAlbumRequest):Observable<ResultPattern<AddToAlbumResponse>> {
+    return this.http.post<ResultPattern<AddToAlbumResponse>>(`${this.baseUrl}moment/addToAlbum`,data);
   }
 }

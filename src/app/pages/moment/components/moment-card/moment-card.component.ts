@@ -17,6 +17,8 @@ import { ShareMomentComponent } from '../modals/share-moment/share-moment.compon
 import { ResultPattern } from '../../../../shared/models/result-pattern.model';
 import { MomentUserResponse } from '../../models/moment-user-response.model';
 import { ShareMomentResponse } from '../../models/share-moment-response.model';
+import { AddToAlbumComponent } from '../modals/add-to-album/add-to-album.component';
+import { AddToAlbumResponse } from '../../models/add-to-album-response.model';
 
 @Component({
   selector: 'app-moment-card',
@@ -29,6 +31,7 @@ import { ShareMomentResponse } from '../../models/share-moment-response.model';
 export class MomentCardComponent implements OnInit {
   ref: DynamicDialogRef<CreateMomentComponent> | undefined;
   ref2: DynamicDialogRef<ShareMomentComponent> | undefined;
+  ref3: DynamicDialogRef<AddToAlbumComponent> | undefined;
   @Input() moment!: MomentResponse;
   @Output() reloadEvent = new EventEmitter<void>();
   currentIndex: number = 0;
@@ -163,6 +166,35 @@ export class MomentCardComponent implements OnInit {
     });
     this.displayBasic = true;
   }
+
+  async addToAlbum(): Promise<void> {
+    this.ref3 = this.dialogService.open(AddToAlbumComponent, {
+      header: 'Agregar a álbum',
+
+      width: '350px',
+      data: {
+        _moment: this.moment
+      }
+  });
+  this.ref3.onClose.subscribe(async (result:{result:ResultPattern<AddToAlbumResponse>,requireUpdate:boolean}) => {
+    //no fue necesario modificar el momento ya que al pasa el objeto
+    // por referencia se actualiza automaticamente en el componente ShareMoment
+    console.log(result);
+    if (result) {
+      if(result.requireUpdate){
+        this.reloadEvent.emit();
+        // this.moment.sharedWith = this.moment.sharedWith.filter((x: MomentUserResponse) => !result.deleteUsers.includes(x.userId));
+      }
+      else{
+       // this.moment.sharedWith.push(...result.result.data);
+      }
+    }
+    else{
+    }
+  });
+
+
+}
 }
 interface imageData{
   itemImageSrc: string;

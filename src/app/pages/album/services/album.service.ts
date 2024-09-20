@@ -9,6 +9,7 @@ import { AlbumResponse } from '../models/album-response.model';
 import { AlbumRequest } from '../models/album-request.model';
 import { ShareAlbumRequest } from '../models/share-album-request.model';
 import { ShareAlbumResponse } from '../models/share-album-response.model';
+import { DataDropDown } from '../../../shared/models/data-dropdown.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,20 @@ export class AlbumService {
 
   deleteShare(userId:string,momentId:string):Observable<ResultPattern<boolean>> {
     return this.http.delete<ResultPattern<boolean>>(`${this.baseUrl}album/${momentId}/deleteShare/${userId}`);
+  }
+
+  getMyAlbums(request?:DefaultFilter):Observable<ResultPattern<DataDropDown[]>> {
+    let params = new HttpParams();
+
+    // Convertir las propiedades del objeto request a parámetros de URL
+   if(request){
+    Object.keys(request).forEach(key => {
+      const value = request[key as keyof DefaultFilter];
+      if (value !== undefined && value !== null) {
+        params = params.set(key, value.toString());
+      }
+    });
+   }
+    return this.http.get<ResultPattern<DataDropDown[]>>(`${this.baseUrl}album/GetMyAlbums`, {params});
   }
 }
