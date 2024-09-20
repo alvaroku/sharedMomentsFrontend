@@ -47,7 +47,7 @@
         </div>
       </div>
       <app-file-upload [uploadText]="(user.profile)?'Actualizar perfil':'Subir foto'" allowedFileTypes="image/*"
-      [multiple]="true" (fileSelected)="handleFileSelected($event)"></app-file-upload>
+      [multiple]="false" (fileSelected)="handleFileSelected($event)"></app-file-upload>
       <button pButton type="submit" label="Guardar" class="w100" [disabled]="userForm.invalid"></button>
     </form>
   </div>
