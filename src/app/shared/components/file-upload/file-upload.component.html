@@ -1,0 +1,12 @@
+<p-fileUpload
+  [chooseLabel]="uploadText"
+  chooseIcon="pi pi-upload"
+  name="files[]"
+  [multiple]="multiple"
+  [accept]="allowedFileTypes"
+  [auto]="false"
+  (onSelect)="onUpload($event)"
+  [showUploadButton]="false"
+  [showCancelButton]="false"
+  (onRemove)="fileSelected.emit(undefined)">
+</p-fileUpload>

@@ -1,0 +1,55 @@
+<div *ngIf="user" >
+ <div class="user-profile card" *ngIf="!isEditMode">
+  <img *ngIf="user.profile" [src]="user.profile.url" alt="Foto de perfil" class="profile-picture">
+  <div class="user-info">
+    <p><strong>Nombre:</strong> {{ user.name }}</p>
+    <p><strong>Correo:</strong> {{ user.email }}</p>
+    <p><strong>Teléfono:</strong> {{ user.phoneNumber }}</p>
+    <p><strong>Fecha de nacimiento:</strong> {{ user.dateOfBirth | date }}</p>
+  </div>
+  <button pButton   label="Editar" class="w100" (click)="isEditMode = !isEditMode"></button>
+ </div>
+  <div class="default-form-container card" *ngIf="isEditMode">
+    <div class="user-profile">
+      <img *ngIf="user.profile" [src]="user.profile.url" alt="Foto de perfil" class="profile-picture">
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="p-field">
+        <label for="name">Nombre</label>
+        <input id="name" type="text" pInputText formControlName="name">
+        <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched" class="p-error">
+          Nombre es requerido.
+        </div>
+      </div>
+
+      <div class="p-field">
+        <label for="email">Correo</label>
+        <input id="email" type="email" pInputText formControlName="email">
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="p-error">
+          Correo es requerido y debe ser válido.
+        </div>
+      </div>
+
+      <div class="p-field">
+        <label for="phoneNumber">Teléfono</label>
+        <input id="phoneNumber" type="text" pInputText formControlName="phoneNumber">
+        <div *ngIf="userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched" class="p-error">
+          Teléfono es requerido.
+        </div>
+      </div>
+
+      <div class="p-field">
+        <label for="dateOfBirth">Fecha de nacimiento</label>
+        <p-calendar id="dateOfBirth" formControlName="dateOfBirth" dateFormat="dd/mm/yy"></p-calendar>
+        <div *ngIf="userForm.get('dateOfBirth')?.invalid && userForm.get('dateOfBirth')?.touched" class="p-error">
+          Fecha de nacimiento es requerida.
+        </div>
+      </div>
+      <app-file-upload [uploadText]="(user.profile)?'Actualizar perfil':'Subir foto'" allowedFileTypes="image/*"
+      [multiple]="true" (fileSelected)="handleFileSelected($event)"></app-file-upload>
+      <button pButton type="submit" label="Guardar" class="w100" [disabled]="userForm.invalid"></button>
+    </form>
+  </div>
+</div>
+

@@ -8,6 +8,7 @@ import {  MyMomentsComponent } from './pages/moment/components/my-moments/my-mom
 import { SharedMomentsComponent } from './pages/moment/components/shared-moments/shared-moments.component';
 import { MyAlbumsComponent } from './pages/album/components/my-albums/my-albums.component';
 import { SharedAlbumsComponent } from './pages/album/components/shared-albums/shared-albums.component';
+import { ProfileComponent } from './pages/user/components/profile/profile.component';
 
 
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
        { path: 'shared-moments', component: SharedMomentsComponent },
        { path: 'my-albums', component: MyAlbumsComponent },
        { path: 'shared-albums', component: SharedAlbumsComponent },
+       { path: 'profile', component: ProfileComponent },
        // Otras rutas que necesiten el menú
 
      ]
