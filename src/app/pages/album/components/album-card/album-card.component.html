@@ -3,12 +3,15 @@
     <h2>{{ album.name }}</h2>
     <p>{{ album.description }}</p>
 
-    <div class="buttons-container" *ngIf="imOwner">
-      <p-button icon="pi pi-pen-to-square" (click)="editAlbum()"></p-button>
-      <p-button icon="pi pi-trash"  severity="danger" (click)="deleteAlbum()"></p-button>
-      <p-button icon="pi pi-share-alt"  severity="success" (click)="shareAlbum()"></p-button>
+    <div class="buttons-container">
+      @if (imOwner) {
+        <p-button icon="pi pi-pen-to-square" (click)="editAlbum()"></p-button>
+        <p-button icon="pi pi-trash"  severity="danger" (click)="deleteAlbum()"></p-button>
+        <p-button icon="pi pi-share-alt"  severity="success" (click)="shareAlbum()"></p-button>
+      }
       <p-button  icon="pi pi-book"  severity="info" (click)="navigateToAlbum(album.id)"></p-button>
     </div>
+
     <div class="buttons-container" *ngIf="!imOwner">
       <span><b>Compartido por: </b><span>{{album.ownerName}}</span></span>
     </div>

@@ -23,6 +23,7 @@ export class MomentsByAlbumComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.albumId = params.get('albumId')??undefined;
     });
+
     let responseAlbum:ResultPattern<AlbumResponse> = await firstValueFrom(this.albumService.getById(this.albumId??''));
     this.album = responseAlbum.data;
   }
