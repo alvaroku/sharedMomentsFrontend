@@ -4,7 +4,7 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { ResultPattern } from '../../../../../shared/models/result-pattern.model';
 import { MomentResponse } from '../../../models/moment-response.model';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ShareMomentRequest } from '../../../models/share-moment-request.model';
 import { DataDropDown } from '../../../../../shared/models/data-dropdown.model';
@@ -15,11 +15,13 @@ import { UserService } from '../../../../user/services/user.service';
 import { ShareMomentResponse } from '../../../models/share-moment-response.model';
 import { MomentUserResponse } from '../../../models/moment-user-response.model';
 import { ToastModule } from 'primeng/toast';
+import { AvatarModule } from 'primeng/avatar';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-share-moment',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule],
+  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,AvatarModule,CheckboxModule,FormsModule],
   templateUrl: './share-moment.component.html',
   styleUrl: './share-moment.component.css'
 })
@@ -30,6 +32,7 @@ export class ShareMomentComponent implements OnInit {
   allOptions: DataDropDown[] = [];
   resultShared:{result:ResultPattern<ShareMomentResponse[]>,deleteUsers:string[]}
   = {result:{data:[],message:'',isSuccess:false,statusCode:0},deleteUsers:[]}
+  isChecked:boolean = false;
   constructor(
     private config: DynamicDialogConfig,
     private ref: DynamicDialogRef<ShareMomentComponent>,

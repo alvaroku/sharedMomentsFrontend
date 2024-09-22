@@ -19,22 +19,12 @@
   cursor: pointer;
 }
 
-
 form {
   display: flex;
   flex-direction: column;
   gap: 10px; /* Espacio entre los elementos del formulario */
   padding-left: 24px;
   padding-right: 24px;
-}
-
-label {
-  align-self: flex-start; /* Alinear las etiquetas a la izquierda */
-  margin-bottom: 8px;
-}
-
-input ,textarea{
-  width: 100%; /* Asegurar que los inputs tengan el mismo tamaño */
 }
 
 .submit {

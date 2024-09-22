@@ -5,7 +5,7 @@
       <ng-template pTemplate="header">
           <div class="flex-container">
               <p-avatar
-                  image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                  [image]="'default-profile.png'"
                   shape="circle" />
               <span class="font-bold">
                  {{(currentUser | async)?.name}}
@@ -15,12 +15,6 @@
       <div class="">
         <p-panelMenu [model]="items" styleClass="" />
       </div>
-      <p>
-        {{(currentUser | async)?.email}}
-      </p>
-      <p>
-        {{(currentUser | async)?.phoneNumber}}
-      </p>
   </p-sidebar>
   <p-button (onClick)="sidebarVisible = true" icon="pi pi-arrow-right" />
 </div>
