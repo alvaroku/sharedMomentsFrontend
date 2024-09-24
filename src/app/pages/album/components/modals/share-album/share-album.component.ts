@@ -14,6 +14,7 @@ import { ShareAlbumRequest } from '../../../models/share-album-request.model';
 import { CommonModule } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';
+import { DataDropDownUser } from '../../../../user/models/data-drop-down-user.model';
 
 @Component({
   selector: 'app-share-album',
@@ -25,8 +26,8 @@ import { ButtonModule } from 'primeng/button';
 export class ShareAlbumComponent implements OnInit {
   album: AlbumResponse | null = null;
   shareForm!: FormGroup;
-  options: DataDropDown[] = [];
-  allOptions: DataDropDown[] = [];
+  options: DataDropDownUser[] = [];
+  allOptions: DataDropDownUser[] = [];
   resultShared:{result:ResultPattern<ShareAlbumResponse[]>,deleteUsers:string[]}
   = {result:{data:[],message:'',isSuccess:false,statusCode:0},deleteUsers:[]}
   constructor(
@@ -53,11 +54,11 @@ export class ShareAlbumComponent implements OnInit {
     this.ref.close(this.resultShared);
   }
    async loadUsers(){
-    let response:ResultPattern<DataDropDown[]> = await firstValueFrom(this.userService.DataDropDownForShareMoment())
+    let response:ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.DataDropDownFriends())
     this.allOptions = response.data;
    }
 async getOptionUsers(){
-  this.options = this.allOptions.filter((option: DataDropDown) => {
+  this.options = this.allOptions.filter((option: DataDropDownUser) => {
     return !this.album?.sharedWith.some((sharedUser: AlbumUserResponse) => sharedUser.userId === option.id);
   });
 }

@@ -10,6 +10,7 @@ import { MyAlbumsComponent } from './pages/album/components/my-albums/my-albums.
 import { SharedAlbumsComponent } from './pages/album/components/shared-albums/shared-albums.component';
 import { ProfileComponent } from './pages/user/components/profile/profile.component';
 import { MomentsByAlbumComponent } from './pages/moment/components/moments-by-album/moments-by-album.component';
+import { FriendsComponent } from './pages/user/components/friends/friends.component';
 
 
 export const routes: Routes = [
@@ -26,7 +27,9 @@ export const routes: Routes = [
 
        { path: 'my-albums', component: MyAlbumsComponent },
        { path: 'shared-albums', component: SharedAlbumsComponent },
+
        { path: 'profile', component: ProfileComponent },
+       { path: 'friends', component: FriendsComponent },
        // Otras rutas que necesiten el menú
 
      ]

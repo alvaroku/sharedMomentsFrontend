@@ -1,0 +1,12 @@
+<div class="flex-container">
+  <p-avatar
+      [image]="user.profileUrl??'default-profile.png'"
+      shape="circle" />
+  <span class="font-bold">
+     {{user.label}}
+  </span>
+  <span>&nbsp;</span><p-button *ngIf="showAddToFriends" icon="pi pi-user-plus" [rounded]="true" (onClick)="addToFriends()"/>
+  <span>&nbsp;</span><p-button *ngIf="showDeleteToFriends" icon="pi pi-times" [rounded]="true" (onClick)="deleteToFriends()"severity="danger" />
+
+</div>
+

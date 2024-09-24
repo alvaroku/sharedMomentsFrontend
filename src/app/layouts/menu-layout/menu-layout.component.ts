@@ -84,6 +84,11 @@ export class MenuLayoutComponent {
                   routerLink: '/profile'
               },
               {
+                label: 'Amigos',
+                icon: 'pi pi-users',
+                routerLink: '/friends'
+            },
+              {
                   label: 'Cerrar sesión',
                   icon: 'pi pi-sign-out',
                   command: () => {

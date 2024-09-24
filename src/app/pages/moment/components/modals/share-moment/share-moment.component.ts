@@ -17,6 +17,7 @@ import { MomentUserResponse } from '../../../models/moment-user-response.model';
 import { ToastModule } from 'primeng/toast';
 import { AvatarModule } from 'primeng/avatar';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DataDropDownUser } from '../../../../user/models/data-drop-down-user.model';
 
 @Component({
   selector: 'app-share-moment',
@@ -28,8 +29,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 export class ShareMomentComponent implements OnInit {
   moment: MomentResponse | null = null;
   shareForm!: FormGroup;
-  options: DataDropDown[] = [];
-  allOptions: DataDropDown[] = [];
+  options: DataDropDownUser[] = [];
+  allOptions: DataDropDownUser[] = [];
   resultShared:{result:ResultPattern<ShareMomentResponse[]>,deleteUsers:string[]}
   = {result:{data:[],message:'',isSuccess:false,statusCode:0},deleteUsers:[]}
   isChecked:boolean = false;
@@ -57,11 +58,11 @@ export class ShareMomentComponent implements OnInit {
     this.ref.close(this.resultShared);
   }
    async loadUsers(){
-    let response:ResultPattern<DataDropDown[]> = await firstValueFrom(this.userService.DataDropDownForShareMoment())
+    let response:ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.DataDropDownFriends())
     this.allOptions = response.data;
    }
 async getOptionUsers(){
-  this.options = this.allOptions.filter((option: DataDropDown) => {
+  this.options = this.allOptions.filter((option: DataDropDownUser) => {
     return !this.moment?.sharedWith.some((sharedUser: MomentUserResponse) => sharedUser.userId === option.id);
   });
 }
