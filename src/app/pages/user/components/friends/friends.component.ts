@@ -9,6 +9,7 @@ import { UserCardComponent } from '../user-card/user-card.component';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AddToFriendsResponse } from '../../models/add-to-friends-response.model';
+import { UserFriendRequest } from '../../models/user-friend-request.model';
 
 @Component({
   selector: 'app-friends',
@@ -18,24 +19,28 @@ import { AddToFriendsResponse } from '../../models/add-to-friends-response.model
   styleUrl: './friends.component.css'
 })
 export class FriendsComponent implements OnInit {
-  noFriends!: DataDropDownUser[]
-  friends!: DataDropDownUser[]
+  noFriends!: UserFriendRequest[]
+  friends!: UserFriendRequest[]
   constructor(private userService:UserService, private confirmationService: ConfirmationService,) { }
 
   async ngOnInit(){
-    let responseNoFriends: ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.DataDropDownNoFriends());
+    let responseNoFriends: ResultPattern<UserFriendRequest[]> = await firstValueFrom(this.userService.DataDropDownNoFriends());
     this.noFriends = responseNoFriends.data;
-    let responseFriends: ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.DataDropDownFriends());
+
+    let responseFriends: ResultPattern<UserFriendRequest[]> = await firstValueFrom(this.userService.DataDropDownFriends());
     this.friends = responseFriends.data
   }
 
-  addToFriendResult(data:AddToFriendsResponse){
-    this.friends.push(this.noFriends.find(x => x.id === data.friendId) as DataDropDownUser)
-    this.noFriends = this.noFriends.filter(x => x.id !== data.friendId);
-
-  }
-  deleteToFriendResult(data:AddToFriendsResponse){
-    this.noFriends.push(this.friends.find(x => x.id === data.friendId) as DataDropDownUser)
+  deleteFromFriendResult(data:AddToFriendsResponse){
+    let user:UserFriendRequest = this.friends.find(x => x.id === data.friendId) as UserFriendRequest
+    user.status = data.status;
+    this.noFriends.push(user);
     this.friends = this.friends.filter(x => x.id !== data.friendId);
+  }
+  acceptFriendrequestResult(data:AddToFriendsResponse){
+    let user:UserFriendRequest = this.noFriends.find(x => x.id === data.friendId) as UserFriendRequest
+    user.status = data.status;
+    this.friends.push(user);
+    this.noFriends = this.friends.filter(x => x.id !== data.friendId);
   }
 }

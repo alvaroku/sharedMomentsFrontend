@@ -8,6 +8,7 @@ import { DefaultFilter } from '../../../shared/models/default-filter.model';
 import { DataDropDownUser } from '../models/data-drop-down-user.model';
 import { AddToFriendsRequest } from '../models/add-to-friends-request.model';
 import { AddToFriendsResponse } from '../models/add-to-friends-response.model';
+import { UserFriendRequest } from '../models/user-friend-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class UserService {
   constructor(private http:HttpClient){
   }
 
-  DataDropDownFriends(request?:DefaultFilter):Observable<ResultPattern<DataDropDownUser[]>> {
+  DataDropDownFriends(request?:DefaultFilter):Observable<ResultPattern<UserFriendRequest[]>> {
     let params = new HttpParams();
 
     // Convertir las propiedades del objeto request a parámetros de URL
@@ -31,9 +32,9 @@ export class UserService {
       }
     });
    }
-    return this.http.get<ResultPattern<DataDropDownUser[]>>(`${this.baseUrl}user/DataDropDownFriends`, {params});
+    return this.http.get<ResultPattern<UserFriendRequest[]>>(`${this.baseUrl}user/DataDropDownFriends`, {params});
   }
-  DataDropDownNoFriends(request?:DefaultFilter):Observable<ResultPattern<DataDropDownUser[]>> {
+  DataDropDownNoFriends(request?:DefaultFilter):Observable<ResultPattern<UserFriendRequest[]>> {
     let params = new HttpParams();
 
     // Convertir las propiedades del objeto request a parámetros de URL
@@ -45,12 +46,19 @@ export class UserService {
       }
     });
    }
-    return this.http.get<ResultPattern<DataDropDownUser[]>>(`${this.baseUrl}user/DataDropDownNoFriends`, {params});
+    return this.http.get<ResultPattern<UserFriendRequest[]>>(`${this.baseUrl}user/DataDropDownNoFriends`, {params});
   }
-  addToFriends(request:AddToFriendsRequest):Observable<ResultPattern<AddToFriendsResponse>> {
-    return this.http.post<ResultPattern<AddToFriendsResponse>>(`${this.baseUrl}user/addToFriends`, request);
+  sendFriendRequest(request:AddToFriendsRequest):Observable<ResultPattern<AddToFriendsResponse>> {
+    return this.http.post<ResultPattern<AddToFriendsResponse>>(`${this.baseUrl}user/sendFriendRequest`, request);
   }
-  deleteToFriends(request:AddToFriendsRequest):Observable<ResultPattern<AddToFriendsResponse>> {
-    return this.http.delete<ResultPattern<AddToFriendsResponse>>(`${this.baseUrl}user/deleteToFriends/${request.friendId}`);
+  acceptFriendRequest(request:AddToFriendsRequest):Observable<ResultPattern<AddToFriendsResponse>> {
+    let data = {friendId:request.friendId,userId:request.ownerId}
+    return this.http.post<ResultPattern<AddToFriendsResponse>>(`${this.baseUrl}user/acceptFriendRequest`,data);
+  }
+  deleteFromFriends(request:AddToFriendsRequest):Observable<ResultPattern<AddToFriendsResponse>> {
+    return this.http.delete<ResultPattern<AddToFriendsResponse>>(`${this.baseUrl}user/${request.ownerId}/deleteFromFriends/${request.friendId}`);
+  }
+  deleteFriendRequest(request:AddToFriendsRequest):Observable<ResultPattern<AddToFriendsResponse>> {
+    return this.http.delete<ResultPattern<AddToFriendsResponse>>(`${this.baseUrl}user/${request.ownerId}/deleteFriendRequest/${request.friendId}`);
   }
 }

@@ -1,13 +1,10 @@
 <h1>Amigos</h1>
 <app-user-card
   *ngFor="let f of friends"
-  [user]="f"
-  [showDeleteToFriends]="true"
-  (deleteToFriendResult)="deleteToFriendResult($event)"
+  [user]="f" (deleteFromFriendResult)="deleteFromFriendResult($event)"
   ></app-user-card>
 <h1>Usuarios</h1>
 <app-user-card
+  (acceptFriendrequestResult)="acceptFriendrequestResult($event)"
   *ngFor="let f of noFriends"
-  [user]="f"
-  [showAddToFriends]="true"
-  (addToFriendResult)="addToFriendResult($event)"></app-user-card>
+  [user]="f"></app-user-card>

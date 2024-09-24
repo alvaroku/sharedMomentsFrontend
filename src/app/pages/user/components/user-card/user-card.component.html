@@ -5,8 +5,9 @@
   <span class="font-bold">
      {{user.label}}
   </span>
-  <span>&nbsp;</span><p-button *ngIf="showAddToFriends" icon="pi pi-user-plus" [rounded]="true" (onClick)="addToFriends()"/>
-  <span>&nbsp;</span><p-button *ngIf="showDeleteToFriends" icon="pi pi-times" [rounded]="true" (onClick)="deleteToFriends()"severity="danger" />
-
+  <span>&nbsp;</span><p-button *ngIf="user.status==undefined" icon="pi pi-user-plus" [rounded]="true" (onClick)="sendFriendRequest()"/>
+  <span>&nbsp;</span><p-button *ngIf="user.status==requestStatus.accepted" icon="pi pi-times" [rounded]="true" (onClick)="deleteFromFriends()"severity="danger" />
+  <span>&nbsp;</span><p-button *ngIf="user.status==requestStatus.sent" icon="pi pi-times" [rounded]="true" (onClick)="deleteFriendRequest()"severity="danger" />
+  <span>&nbsp;</span> <p-button *ngIf="user.status==requestStatus.sent && !imOwner"  icon="pi pi-check" [rounded]="true" (onClick)="acceptFriendRequest()" />
 </div>
 
