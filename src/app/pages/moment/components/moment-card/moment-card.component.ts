@@ -20,16 +20,18 @@ import { ShareMomentResponse } from '../../models/share-moment-response.model';
 import { AddToAlbumComponent } from '../modals/add-to-album/add-to-album.component';
 import { AddToAlbumResponse } from '../../models/add-to-album-response.model';
 import { AvatarModule } from 'primeng/avatar';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-moment-card',
   standalone: true,
-  imports: [CommonModule,ButtonModule,GalleriaModule,AvatarModule ],
+  imports: [CommonModule,ButtonModule,GalleriaModule,AvatarModule,LoadingComponent ],
   templateUrl: './moment-card.component.html',
   styleUrl: './moment-card.component.css',
   providers: []
 })
 export class MomentCardComponent implements OnInit {
+  isLoading: boolean = false;
   ref: DynamicDialogRef<CreateMomentComponent> | undefined;
   ref2: DynamicDialogRef<ShareMomentComponent> | undefined;
   ref3: DynamicDialogRef<AddToAlbumComponent> | undefined;
@@ -98,6 +100,7 @@ export class MomentCardComponent implements OnInit {
       try {
         if(!await this.confirm1('¿Estás seguro de que deseas eliminar este momento?','Confirmar eliminación'))
           return;
+        this.isLoading = true;
         let response = await firstValueFrom(this.momentService.delete(this.moment.id))
 
         this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
@@ -106,6 +109,7 @@ export class MomentCardComponent implements OnInit {
         // Handle error
       } finally {
         //hideLoading();
+        this.isLoading = false;
       }
 
   }

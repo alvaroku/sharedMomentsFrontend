@@ -17,15 +17,17 @@ import { ButtonModule } from 'primeng/button';
 import { DataDropDownUser } from '../../../../user/models/data-drop-down-user.model';
 import { ListboxModule } from 'primeng/listbox';
 import { AvatarModule } from 'primeng/avatar';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-share-album',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,ListboxModule,AvatarModule],
+  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,ListboxModule,AvatarModule,LoadingComponent],
   templateUrl: './share-album.component.html',
   styleUrl: './share-album.component.css'
 })
 export class ShareAlbumComponent implements OnInit {
+  isLoading: boolean = false;
   album: AlbumResponse | null = null;
   shareForm!: FormGroup;
   options: DataDropDownUser[] = [];
@@ -56,8 +58,10 @@ export class ShareAlbumComponent implements OnInit {
     this.ref.close(this.resultShared);
   }
    async loadUsers(){
-    let response:ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.DataDropDownFriends())
+    this.isLoading = true;
+    let response:ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.getFriendListDropDown())
     this.allOptions = response.data;
+    this.isLoading = false;
    }
 async getOptionUsers(){
   this.options = this.allOptions.filter((option: DataDropDownUser) => {
@@ -67,7 +71,7 @@ async getOptionUsers(){
   async onSubmit() {
     if (this.shareForm.valid) {
        try {
-
+        this.isLoading = true;
         let payload:ShareAlbumRequest= {sharedUsersId:this.shareForm.value.sharedUsersId.map((x:DataDropDown)=>x.id)}
        let response:ResultPattern<ShareAlbumResponse[]> = await firstValueFrom(this.albumService.share(this.album?.id??'',payload))
        this.resultShared.result = response;
@@ -79,7 +83,7 @@ async getOptionUsers(){
      } catch (error) {
 
      } finally {
-
+      this.isLoading = false;
      }
     }
   }
@@ -105,11 +109,14 @@ async getOptionUsers(){
     if(!await this.confirm1('¿Estás seguro de que deseas dejar de compartir este albúm con el usuario?','Confirmar eliminación'))
       return
     try{
+      this.isLoading = true;
       let response:ResultPattern<boolean> = await firstValueFrom(this.albumService.deleteShare(userId,this.album?.id??''))
       this.resultShared.deleteUsers.push(userId)
       this.album!.sharedWith = this.album!.sharedWith.filter((x: AlbumUserResponse) => x.userId !== userId);
       this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.getOptionUsers()
-    }catch(error){}
+    }catch(error){}finally{
+      this.isLoading = false;
+    }
   }
 }

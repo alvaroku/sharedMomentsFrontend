@@ -10,25 +10,29 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AddToFriendsResponse } from '../../models/add-to-friends-response.model';
 import { UserFriendRequest } from '../../models/user-friend-request.model';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-friends',
   standalone: true,
-  imports: [AvatarModule,CommonModule,UserCardComponent,ButtonModule ],
+  imports: [AvatarModule,CommonModule,UserCardComponent,ButtonModule,LoadingComponent],
   templateUrl: './friends.component.html',
   styleUrl: './friends.component.css'
 })
 export class FriendsComponent implements OnInit {
+  isLoading: boolean = false;
   noFriends!: UserFriendRequest[]
   friends!: UserFriendRequest[]
   constructor(private userService:UserService, private confirmationService: ConfirmationService,) { }
 
   async ngOnInit(){
-    let responseNoFriends: ResultPattern<UserFriendRequest[]> = await firstValueFrom(this.userService.DataDropDownNoFriends());
+    this.isLoading = true;
+    let responseNoFriends: ResultPattern<UserFriendRequest[]> = await firstValueFrom(this.userService.getNoFriendList());
     this.noFriends = responseNoFriends.data;
 
-    let responseFriends: ResultPattern<UserFriendRequest[]> = await firstValueFrom(this.userService.DataDropDownFriends());
+    let responseFriends: ResultPattern<UserFriendRequest[]> = await firstValueFrom(this.userService.getFriendList());
     this.friends = responseFriends.data
+    this.isLoading = false;
   }
 
   deleteFromFriendResult(data:AddToFriendsResponse){

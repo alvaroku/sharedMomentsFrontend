@@ -13,15 +13,17 @@ import { ResultPattern } from '../../../../shared/models/result-pattern.model';
 import { ShareAlbumResponse } from '../../models/share-album-response.model';
 import { Router } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-album-card',
   standalone: true,
-  imports: [CommonModule,ButtonModule,AvatarModule ],
+  imports: [CommonModule,ButtonModule,AvatarModule,LoadingComponent ],
   templateUrl: './album-card.component.html',
   styleUrl: './album-card.component.css'
 })
 export class AlbumCardComponent implements OnInit {
+  isLoading: boolean = false;
   ref: DynamicDialogRef<CreateAlbumComponent> | undefined;
   ref2: DynamicDialogRef<ShareAlbumComponent> | undefined;
   @Input() album!: AlbumResponse;
@@ -79,6 +81,7 @@ export class AlbumCardComponent implements OnInit {
       try {
         if(!await this.confirm1('¿Estás seguro de que deseas eliminar este albúm?','Confirmar eliminación'))
           return;
+        this.isLoading = true;
         let response = await firstValueFrom(this.albumService.delete(this.album.id))
 
         this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
@@ -87,6 +90,7 @@ export class AlbumCardComponent implements OnInit {
         // Handle error
       } finally {
         //hideLoading();
+        this.isLoading = false;
       }
 
   }

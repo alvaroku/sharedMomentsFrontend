@@ -13,15 +13,17 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProfileRequest } from '../../models/profile-request.model';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FileUploadModule, FileUploadComponent, ButtonModule,ReactiveFormsModule,CalendarModule,InputTextModule],
+  imports: [CommonModule, FileUploadModule, FileUploadComponent, ButtonModule,ReactiveFormsModule,CalendarModule,InputTextModule,LoadingComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
+  isLoading: boolean = false;
   userForm!: FormGroup;
 
   user!: ProfileResponse
@@ -38,7 +40,7 @@ export class ProfileComponent implements OnInit {
       dateOfBirth: ['', Validators.required],
       profile: [null]
     });
-
+    this.isLoading = true
     let response: ResultPattern<ProfileResponse> = await firstValueFrom(this.profileService.getProfile())
     this.user = response.data
 
@@ -48,6 +50,7 @@ export class ProfileComponent implements OnInit {
         phoneNumber: this.user.phoneNumber,
         dateOfBirth: new Date(this.user.dateOfBirth)
       });
+      this.isLoading = false
 
   }
   handleFileSelected(file?: File) {
@@ -63,11 +66,13 @@ export class ProfileComponent implements OnInit {
   }
   async onSubmit() {
     if (this.userForm.valid) {
+      this.isLoading = true
       let payload:ProfileRequest = this.userForm.value
       let response: ResultPattern<ProfileResponse> = await firstValueFrom(this.profileService.updateProfile(payload))
       this.user = response.data
       this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.isEditMode = !this.isEditMode
+      this.isLoading = false
     }
   }
 }

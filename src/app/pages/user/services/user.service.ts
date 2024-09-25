@@ -20,7 +20,7 @@ export class UserService {
   constructor(private http:HttpClient){
   }
 
-  DataDropDownFriends(request?:DefaultFilter):Observable<ResultPattern<UserFriendRequest[]>> {
+  getFriendList(request?:DefaultFilter):Observable<ResultPattern<UserFriendRequest[]>> {
     let params = new HttpParams();
 
     // Convertir las propiedades del objeto request a parámetros de URL
@@ -32,9 +32,9 @@ export class UserService {
       }
     });
    }
-    return this.http.get<ResultPattern<UserFriendRequest[]>>(`${this.baseUrl}user/DataDropDownFriends`, {params});
+    return this.http.get<ResultPattern<UserFriendRequest[]>>(`${this.baseUrl}user/getFriendList`, {params});
   }
-  DataDropDownNoFriends(request?:DefaultFilter):Observable<ResultPattern<UserFriendRequest[]>> {
+  getNoFriendList(request?:DefaultFilter):Observable<ResultPattern<UserFriendRequest[]>> {
     let params = new HttpParams();
 
     // Convertir las propiedades del objeto request a parámetros de URL
@@ -46,7 +46,21 @@ export class UserService {
       }
     });
    }
-    return this.http.get<ResultPattern<UserFriendRequest[]>>(`${this.baseUrl}user/DataDropDownNoFriends`, {params});
+    return this.http.get<ResultPattern<UserFriendRequest[]>>(`${this.baseUrl}user/getNoFriendList`, {params});
+  }
+  getFriendListDropDown(request?:DefaultFilter):Observable<ResultPattern<DataDropDownUser[]>> {
+    let params = new HttpParams();
+
+    // Convertir las propiedades del objeto request a parámetros de URL
+   if(request){
+    Object.keys(request).forEach(key => {
+      const value = request[key as keyof DefaultFilter];
+      if (value !== undefined && value !== null) {
+        params = params.set(key, value.toString());
+      }
+    });
+   }
+    return this.http.get<ResultPattern<DataDropDownUser[]>>(`${this.baseUrl}user/getFriendListDropDown`, {params});
   }
   sendFriendRequest(request:AddToFriendsRequest):Observable<ResultPattern<AddToFriendsResponse>> {
     return this.http.post<ResultPattern<AddToFriendsResponse>>(`${this.baseUrl}user/sendFriendRequest`, request);

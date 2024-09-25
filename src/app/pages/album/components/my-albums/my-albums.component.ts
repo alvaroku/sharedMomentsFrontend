@@ -16,15 +16,17 @@ import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { AlbumCardComponent } from '../album-card/album-card.component';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-my-albums',
   standalone: true,
-  imports: [CommonModule,AlbumCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule  ],
+  imports: [CommonModule,AlbumCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule,LoadingComponent  ],
   templateUrl: './my-albums.component.html',
   styleUrl: './my-albums.component.css'
 })
 export class MyAlbumsComponent implements OnInit {
+  isLoading: boolean = false;
   ref: DynamicDialogRef<CreateAlbumComponent> | undefined;
 
   defaultFilter:DefaultFilter = { pageNumber: 1, pageSize: 4,status:true,search:undefined };
@@ -37,9 +39,11 @@ export class MyAlbumsComponent implements OnInit {
   }
 
   async loadData() {
+    this.isLoading = true;
     let response: ResultPattern<PaginateResponse<AlbumResponse>> = await firstValueFrom(this.albumService.getAll(this.defaultFilter));
     this.albums = response.data.list;
-    this.paginateComponent.totalRecords = response.data.totalRecords; // Asegúrate de que tu respuesta tenga el total de registros
+    this.paginateComponent.totalRecords = response.data.totalRecords;
+    this.isLoading = false;
   }
 
   createAlbum(): void {

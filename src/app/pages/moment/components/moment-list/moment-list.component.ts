@@ -20,11 +20,13 @@ import { ResultPattern } from '../../../../shared/models/result-pattern.model';
 import { CreateMomentComponent } from '../create-moment/create-moment.component';
 import { PaginatorEvent } from '../../../../shared/models/paginator-event.model';
 import { FilterMomentParams } from '../../models/filter-moment-params.model';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-moment-list',
   standalone: true,
-  imports: [CommonModule,MomentCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule  ],
+  imports: [CommonModule,MomentCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule,LoadingComponent  ],
   templateUrl: './moment-list.component.html',
   styleUrl: './moment-list.component.css'
 })
@@ -33,23 +35,26 @@ export class MomentListComponent implements OnInit {
   @Input() hasAlbum?: boolean;
   @Input() albumId?: string;
   @Input() ownerId?: string;
-
+  isLoading: boolean = false;
   defaultFilter!:FilterMomentParams
-
+imOwner:boolean = false;
   moments: MomentResponse[] = [];
-  constructor(private momentService:MomentService,public dialogService: DialogService,private messageService: MessageService) {
+  constructor(private momentService:MomentService,public dialogService: DialogService,private messageService: MessageService, private authService:AuthService) {
 
    }
 
   async ngOnInit() {
+    this.imOwner = this.ownerId!=undefined && this.ownerId == (await firstValueFrom(this.authService.getCurrentUserState))?.id
     this.defaultFilter = { pageNumber: 1, pageSize: 4,status:true,search:undefined,hasAlbum:this.hasAlbum,albumId:this.albumId,ownerId:this.ownerId};
     await this.loadMoments();
   }
 
   async loadMoments() {
+    this.isLoading = true;
     let response: ResultPattern<PaginateResponse<MomentResponse>> = await firstValueFrom(this.momentService.getMoments(this.defaultFilter));
     this.moments = response.data.list;
-    this.paginateComponent.totalRecords = response.data.totalRecords; // Asegúrate de que tu respuesta tenga el total de registros
+    this.paginateComponent.totalRecords = response.data.totalRecords;
+    this.isLoading = false;
   }
 
   createMoment(): void {

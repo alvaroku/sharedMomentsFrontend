@@ -18,15 +18,17 @@ import { AlbumService } from '../../../../album/services/album.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { AddToAlbumRequest } from '../../../models/add-to-album-request.model';
 import { AddToAlbumResponse } from '../../../models/add-to-album-response.model';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-add-to-album',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,DropdownModule ,ButtonModule],
+  imports: [CommonModule,ReactiveFormsModule,DropdownModule ,ButtonModule,LoadingComponent],
   templateUrl: './add-to-album.component.html',
   styleUrl: './add-to-album.component.css'
 })
 export class AddToAlbumComponent  implements OnInit {
+  isLoading: boolean = false;
   moment: MomentResponse | null = null;
   shareForm!: FormGroup;
   options: DataDropDown[] = [];
@@ -57,14 +59,16 @@ export class AddToAlbumComponent  implements OnInit {
     this.ref.close(this.result);
   }
    async loadAlbums(){
+    this.isLoading = true;
     let response:ResultPattern<DataDropDown[]> = await firstValueFrom(this.albumService.getMyAlbums())
     this.options = response.data;
+    this.isLoading = false;
    }
 
   async onSubmit() {
     if (this.shareForm.valid) {
        try {
-
+        this.isLoading = true;
         let payload:AddToAlbumRequest= this.shareForm.value;
         if(payload.albumId==undefined && this.moment?.albumId == undefined){
            this.ref.close(this.result);
@@ -96,7 +100,7 @@ export class AddToAlbumComponent  implements OnInit {
      } catch (error) {
 
      } finally {
-
+      this.isLoading = false;
      }
     }
   }

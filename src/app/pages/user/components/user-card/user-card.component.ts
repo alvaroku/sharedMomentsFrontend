@@ -11,15 +11,17 @@ import { AddToFriendsRequest } from '../../models/add-to-friends-request.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { EFriendRequestStatus, UserFriendRequest } from '../../models/user-friend-request.model';
 import { AuthService } from '../../../auth/services/auth.service';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [AvatarModule,CommonModule,ButtonModule ],
+  imports: [AvatarModule,CommonModule,ButtonModule ,LoadingComponent],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.css'
 })
 export class UserCardComponent implements OnInit {
+  isLoading: boolean = false;
   @Input() user!:UserFriendRequest
   @Output() deleteFromFriendResult = new EventEmitter<AddToFriendsResponse>();
   @Output() acceptFriendrequestResult = new EventEmitter<AddToFriendsResponse>();
@@ -35,6 +37,7 @@ export class UserCardComponent implements OnInit {
   }
   async sendFriendRequest(){
    try {
+    this.isLoading = true;
     let request: AddToFriendsRequest = {friendId:this.user.id}
     let response: ResultPattern<AddToFriendsResponse> = await firstValueFrom(this.userService.sendFriendRequest(request));
     this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
@@ -42,22 +45,29 @@ export class UserCardComponent implements OnInit {
     this.user.ownerId = response.data.userId;
     this.imOwner = this.user.ownerId == (await firstValueFrom(this.authService.getCurrentUserState))?.id
    } catch (error) {
+   }finally{
+    this.isLoading = false;
    }
   }
   async acceptFriendRequest(){
     try {
+      this.isLoading = true;
       let request: AddToFriendsRequest = {friendId:this.user.id,ownerId:this.user.ownerId}//necesita de ambos, ya que el usuario en sesión puede enviar y recibir solicitudes
       let response: ResultPattern<AddToFriendsResponse> = await firstValueFrom(this.userService.acceptFriendRequest(request));
       this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.acceptFriendrequestResult?.emit(response.data);
+
     } catch (error) {
 
+    }finally{
+      this.isLoading = false;
     }
   }
   async deleteFromFriends(){
     if(!await this.confirm1('¿Estás seguro de que deseas eliminarlo de tus amigos?','Confirmar eliminación'))
       return;
     try {
+      this.isLoading = true;
       let request: AddToFriendsRequest = {friendId:this.user.id,ownerId:this.user.ownerId}
       let response: ResultPattern<AddToFriendsResponse> = await firstValueFrom(this.userService.deleteFromFriends(request));
 
@@ -65,16 +75,21 @@ export class UserCardComponent implements OnInit {
       this.deleteFromFriendResult?.emit(response.data);
     } catch (error) {
 
+    }finally{
+      this.isLoading = false;
     }
   }
   async deleteFriendRequest(){
     try {
+      this.isLoading = true;
       let request: AddToFriendsRequest = {friendId:this.user.id,ownerId:this.user.ownerId}//necesita de ambos, ya que el usuario en sesión puede enviar y recibir solicitudes
       let response: ResultPattern<AddToFriendsResponse> = await firstValueFrom(this.userService.deleteFriendRequest(request));
       this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.user.status = response.data.status;
     } catch (error) {
 
+    }finally{
+      this.isLoading = false;
     }
   }
   confirm1(_message:string,title:string): Promise<boolean> {

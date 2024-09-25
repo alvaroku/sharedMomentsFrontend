@@ -13,16 +13,17 @@ import { PaginateResponse } from '../../../../shared/models/paginate-response.mo
 import { firstValueFrom } from 'rxjs';
 import { PaginatorEvent } from '../../../../shared/models/paginator-event.model';
 import { FilterMomentParams } from '../../models/filter-moment-params.model';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-shared-moments',
   standalone: true,
-  imports: [CommonModule,MomentCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule  ],
+  imports: [CommonModule,MomentCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule,LoadingComponent  ],
   templateUrl: './shared-moments.component.html',
   styleUrl: './shared-moments.component.css'
 })
 export class SharedMomentsComponent implements OnInit {
-
+  isLoading: boolean = false;
 
   defaultFilter:FilterMomentParams = { pageNumber: 1, pageSize: 4,status:true,search:undefined,albumId:undefined,hasAlbum:false };
 
@@ -34,9 +35,11 @@ export class SharedMomentsComponent implements OnInit {
   }
 
   async loadMoments() {
+    this.isLoading = true;
     let response: ResultPattern<PaginateResponse<MomentResponse>> = await firstValueFrom(this.momentService.getSharedWithMe(this.defaultFilter));
     this.moments = response.data.list;
-    this.paginateComponent.totalRecords = response.data.totalRecords; // Asegúrate de que tu respuesta tenga el total de registros
+    this.paginateComponent.totalRecords = response.data.totalRecords;
+    this.isLoading = false;
   }
 
 

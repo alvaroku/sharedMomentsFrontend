@@ -1,3 +1,4 @@
+<app-loading [isLoading]="isLoading"></app-loading>
 <div class="default-form-container ">
   <form [formGroup]="shareForm" (ngSubmit)="onSubmit()">
     <div>
@@ -17,7 +18,7 @@
       </div>
     </div>
     <br>
-    <button type="submit" class="submit" pButton label="Guardar album" [disabled]="shareForm.invalid"></button>
+    <button type="submit" class="submit" pButton label="Guardar" [disabled]="shareForm.invalid"></button>
     <button type="reset"  pButton label="Salir" severity="danger" class="w100 mt-5" (click)="onDialogClose()"></button>
   </form>
 </div>

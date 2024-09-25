@@ -1,3 +1,4 @@
+<app-loading [isLoading]="isLoading"></app-loading>
 <div class="custom-card w-300" id="moment-card-{{moment.id}}">
   <div class="carousel">
     <img *ngFor="let res of moment.resources; let i = index" [src]="res.url" class="carousel-image" [style.display]="i === 0 ? 'block' : 'none'" (click)="showModal()">

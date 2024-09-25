@@ -12,6 +12,7 @@ import { AlbumRequest } from '../../models/album-request.model';
 import { ResultPattern } from '../../../../shared/models/result-pattern.model';
 import { AlbumResponse } from '../../models/album-response.model';
 import { firstValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-create-album',
@@ -23,11 +24,13 @@ import { firstValueFrom } from 'rxjs';
     InputTextModule,
     InputTextareaModule,
     ButtonModule,
+    LoadingComponent
   ],
   templateUrl: './create-album.component.html',
   styleUrl: './create-album.component.css'
 })
 export class CreateAlbumComponent {
+  isLoading: boolean = false;
   albumForm!: FormGroup;
 
   album:string | null = null;
@@ -62,7 +65,7 @@ export class CreateAlbumComponent {
      let request: AlbumRequest = this.albumForm.value
 
     try {
-      this.showLoading();
+     this.isLoading = true;
       let response:ResultPattern<AlbumResponse>;
       if (this.album == null) {
         response = await firstValueFrom(this.albumService.create(request));
@@ -74,13 +77,13 @@ export class CreateAlbumComponent {
       this.close(response);
     } catch (error) {
     } finally {
-      this.hideLoading();
+      this.isLoading = false;
     }
   }
 
   async loadForUpdate(): Promise<void> {
     try {
-      this.showLoading();
+      this.isLoading = true;
       const response:ResultPattern<AlbumResponse>= await firstValueFrom(this.albumService.getById(this.album??""));
       //this.moment = response.data;
       this.albumForm.patchValue({
@@ -91,21 +94,8 @@ export class CreateAlbumComponent {
     } catch (error) {
       // Handle error
     } finally {
-      this.hideLoading();
+       this.isLoading = false;
     }
-  }
-
-
-  showLoading(): void {
-    // Implement show loading logic
-  }
-
-  hideLoading(): void {
-    // Implement hide loading logic
-  }
-
-  showAlertWithCallback(title: string, message: string, type: string, callback: () => void): void {
-    // Implement show alert with callback logic
   }
 
   close(data: ResultPattern<AlbumResponse>): void {

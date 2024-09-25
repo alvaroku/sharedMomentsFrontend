@@ -13,16 +13,17 @@ import { PaginateResponse } from '../../../../shared/models/paginate-response.mo
 import { firstValueFrom } from 'rxjs';
 import { PaginatorEvent } from '../../../../shared/models/paginator-event.model';
 import { AlbumCardComponent } from '../album-card/album-card.component';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-shared-albums',
   standalone: true,
-  imports: [CommonModule,AlbumCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule  ],
+  imports: [CommonModule,AlbumCardComponent,ButtonModule,PaginatorModule ,InputTextModule,TriStateCheckboxModule,LoadingComponent  ],
   templateUrl: './shared-albums.component.html',
   styleUrl: './shared-albums.component.css'
 })
 export class SharedAlbumsComponent implements OnInit {
-
+  isLoading: boolean = false;
 
   defaultFilter:DefaultFilter = { pageNumber: 1, pageSize: 4,status:true,search:undefined };
 
@@ -34,9 +35,11 @@ export class SharedAlbumsComponent implements OnInit {
   }
 
   async loadAlbums() {
+    this.isLoading = true;
     let response: ResultPattern<PaginateResponse<AlbumResponse>> = await firstValueFrom(this.albumService.getSharedWithMe(this.defaultFilter));
     this.albums = response.data.list;
-    this.paginateComponent.totalRecords = response.data.totalRecords; // Asegúrate de que tu respuesta tenga el total de registros
+    this.paginateComponent.totalRecords = response.data.totalRecords;
+    this.isLoading = false;
   }
 
 

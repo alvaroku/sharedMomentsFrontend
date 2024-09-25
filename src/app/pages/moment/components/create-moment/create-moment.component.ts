@@ -16,6 +16,7 @@ import { FileToObjectUrlPipe } from '../../../../shared/pipes/file-to-object-url
 import { FileUploadModule } from 'primeng/fileupload';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-create-moment',
@@ -29,13 +30,15 @@ import { ToastModule } from 'primeng/toast';
     InputTextModule,
     InputTextareaModule,
     ButtonModule,
-    FileUploadModule,ToastModule
+    FileUploadModule,ToastModule,
+    LoadingComponent
 
   ],
   templateUrl: './create-moment.component.html',
   styleUrl: './create-moment.component.css'
 })
 export class CreateMomentComponent {
+  isLoading: boolean = false;
   momentForm!: FormGroup;
   fileList: File[] = [];
   preloadedImages: any[] = [];
@@ -92,7 +95,7 @@ export class CreateMomentComponent {
      let request: MomentRequest = this.momentForm.value
      request.albumId = this.albumId;
     try {
-      this.showLoading();
+      this.isLoading = true;
       let response:ResultPattern<MomentResponse>;
       if (this.id == null) {
         response = await firstValueFrom(this.momentService.create(request, this.fileList));
@@ -103,13 +106,13 @@ export class CreateMomentComponent {
       this.close(response);
     } catch (error) {
     } finally {
-      this.hideLoading();
+      this.isLoading = false;
     }
   }
 
   async loadForUpdate(): Promise<void> {
     try {
-      this.showLoading();
+      this.isLoading = true;
       const response:ResultPattern<MomentResponse>= await firstValueFrom(this.momentService.getById(this.id??""));
       //this.moment = response.data;
       this.momentForm.patchValue({
@@ -125,13 +128,14 @@ export class CreateMomentComponent {
     } catch (error) {
       // Handle error
     } finally {
-      this.hideLoading();
+      this.isLoading = false;
     }
   }
 
   async removePreloadedImage(resource: any): Promise<void> {
     if(!await this.confirm1('¿Estás seguro de que deseas eliminar esta imagen?','Confirmar eliminación'))
       return;
+    this.isLoading = true;
     const response:ResultPattern<boolean> = await firstValueFrom(this.resourceService.delete(resource.id));
     const index = this.preloadedImages.indexOf(resource);
     if (index > -1) {
@@ -139,6 +143,7 @@ export class CreateMomentComponent {
     }
     this.verifyRequiredFileForUpdate();
     this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
+    this.isLoading = false;
   }
 
   verifyRequiredFileForUpdate(): void {
@@ -150,17 +155,7 @@ export class CreateMomentComponent {
     this.momentForm.get('images')?.updateValueAndValidity();
   }
 
-  showLoading(): void {
-    // Implement show loading logic
-  }
 
-  hideLoading(): void {
-    // Implement hide loading logic
-  }
-
-  showAlertWithCallback(title: string, message: string, type: string, callback: () => void): void {
-    // Implement show alert with callback logic
-  }
 
   close(data: ResultPattern<MomentResponse>): void {
   this.ref.close(data);

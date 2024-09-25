@@ -1,9 +1,11 @@
+<app-loading [isLoading]="isLoading"></app-loading>
 <p-button icon="pi pi-plus"  (click)="createMoment()"></p-button>
 <input type="text" placeholder="Buscar" pInputText [(ngModel)]="defaultFilter.search"/>
 <p-button icon="pi pi-times" severity="danger" *ngIf="defaultFilter.search"   (click)="defaultFilter.search=undefined"></p-button>
 <p-button icon="pi pi-search"  (click)="search()"></p-button>
 
-<br><br>
+@if (imOwner || !hasAlbum) {
+  <br><br>
 <label class="tri-state-container">
   <p-triStateCheckbox [(ngModel)]="defaultFilter.status" inputId="tricheckbox"></p-triStateCheckbox>
   <label [ngSwitch]="defaultFilter.status" for="tricheckbox">
@@ -15,6 +17,7 @@
     <span *ngSwitchDefault>Todos</span>
   </label>
 </label>
+}
 
 
 

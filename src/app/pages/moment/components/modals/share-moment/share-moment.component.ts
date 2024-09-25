@@ -19,15 +19,17 @@ import { AvatarModule } from 'primeng/avatar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DataDropDownUser } from '../../../../user/models/data-drop-down-user.model';
 import { ListboxModule } from 'primeng/listbox';
+import { LoadingComponent } from '../../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-share-moment',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,AvatarModule,CheckboxModule,FormsModule,ListboxModule ],
+  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,AvatarModule,CheckboxModule,FormsModule,ListboxModule,LoadingComponent ],
   templateUrl: './share-moment.component.html',
   styleUrl: './share-moment.component.css'
 })
 export class ShareMomentComponent implements OnInit {
+  isLoading: boolean = false;
   moment: MomentResponse | null = null;
   shareForm!: FormGroup;
   options: DataDropDownUser[] = [];
@@ -42,7 +44,7 @@ export class ShareMomentComponent implements OnInit {
     private momentService:MomentService,
     private messageService: MessageService,
     private userService:UserService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
   ) {
     this.moment = this.config.data._moment
    }
@@ -59,8 +61,10 @@ export class ShareMomentComponent implements OnInit {
     this.ref.close(this.resultShared);
   }
    async loadUsers(){
-    let response:ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.DataDropDownFriends())
+    this.isLoading = true;
+    let response:ResultPattern<DataDropDownUser[]> = await firstValueFrom(this.userService.getFriendListDropDown())
     this.allOptions = response.data;
+    this.isLoading = false;
    }
 async getOptionUsers(){
   this.options = this.allOptions.filter((option: DataDropDownUser) => {
@@ -70,7 +74,7 @@ async getOptionUsers(){
   async onSubmit() {
     if (this.shareForm.valid) {
        try {
-
+        this.isLoading = true;
         let payload:ShareMomentRequest= {sharedUsersId:this.shareForm.value.sharedUsersId.map((x:DataDropDown)=>x.id)}
        let response:ResultPattern<ShareMomentResponse[]> = await firstValueFrom(this.momentService.share(this.moment?.id??'',payload))
        this.resultShared.result = response;
@@ -82,7 +86,7 @@ async getOptionUsers(){
      } catch (error) {
 
      } finally {
-
+        this.isLoading = false;
      }
     }
   }
@@ -108,11 +112,14 @@ async getOptionUsers(){
     if(!await this.confirm1('¿Estás seguro de que deseas dejar de compartir este momento con el usuario?','Confirmar eliminación'))
       return
     try{
+      this.isLoading = true;
       let response:ResultPattern<boolean> = await firstValueFrom(this.momentService.deleteShare(userId,this.moment?.id??''))
       this.resultShared.deleteUsers.push(userId)
       this.moment!.sharedWith = this.moment!.sharedWith.filter((x: MomentUserResponse) => x.userId !== userId);
       this.messageService.add({ severity: 'success', summary: 'Acción exitosa', detail: response.message });
       this.getOptionUsers()
-    }catch(error){}
+    }catch(error){}finally{
+      this.isLoading = false;
+    }
   }
 }
