@@ -46,10 +46,12 @@ body {
   align-self: flex-start; /* Alinear las etiquetas a la izquierda */
 }
 
-.default-form-container input,.default-form-container .p-multiselect, .default-form-container .p-dropdown , .default-form-container textarea,.default-form-container .p-calendar  {
+.default-form-container input,.default-form-container .p-multiselect, .default-form-container .p-dropdown , .default-form-container textarea,.default-form-container .p-calendar{
   width: 100%; /* Asegurar que los inputs tengan el mismo tamaño */
 }
-
+.default-form-container .p-listbox{
+  width: 100% !important;
+}
 .default-form-container .submit {
   align-self: center; /* Centrar el botón */
   width: 100%; /* Asegurar que el botón ocupe todo el ancho del formulario */
@@ -61,6 +63,8 @@ body {
   border: 1px solid #ccc; /* Opcional: añade un borde para visualizar mejor el contenedor */
   padding-left: 10px; /* Opcional: añade un padding para mejor apariencia */
   padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .list-item {
@@ -111,9 +115,11 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
-  width: 300px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
+}
+.w-300{
+  width: 300px;
 }
 .custom-card .content {
   padding: 1rem;
@@ -146,4 +152,17 @@ body {
 
 .font-bold{
   font-weight: bold;
+}
+.profile-picture {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.fz-1rem{
+  font-size: 1.2rem;
+}
+
+.grid-container {
+  display: grid;
+  gap: 5px; /* Espacio entre los elementos */
+  padding: 5px; /* Espacio alrededor del contenedor */
 }

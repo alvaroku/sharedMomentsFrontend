@@ -1,4 +1,4 @@
-<div class="custom-card" id="moment-card-{{album.id}}">
+<div class="custom-card w-300" id="moment-card-{{album.id}}">
   <div class="content">
     <h2>{{ album.name }}</h2>
     <p>{{ album.description }}</p>
@@ -13,7 +13,16 @@
     </div>
 
     <div class="buttons-container" *ngIf="!imOwner">
-      <span><b>Compartido por: </b><span>{{album.ownerName}}</span></span>
+      <span>
+        <b>Compartido por: </b>
+        <div class="flex-container">
+          <p-avatar [image]="album.profileUrl??'default-profile.png'" shape="circle" />
+          <span class="font-bold">
+            {{album.ownerName}}
+          </span>
+        </div>
+      </span>
     </div>
   </div>
 </div>
+

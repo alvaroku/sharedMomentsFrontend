@@ -3,41 +3,36 @@
   <form [formGroup]="shareForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="options">Selecciona opciones</label>
-      <p-multiSelect
-        id="options"
-        [options]="options"
-        optionLabel="label"
-        formControlName="sharedUsersId"
-        placeholder="Selecciona opciones"
-        >
-      </p-multiSelect>
+
+      <p-listbox [options]="options" [multiple]="true" formControlName="sharedUsersId" filter="true" optionLabel="label"
+        [listStyle]="{ 'max-height': '250px' }" [style]="{ width: '15rem' }" [listStyle]="{'max-height': '220px'}">
+        <ng-template let-country pTemplate="item">
+          <div class="flex-container">
+            <img [src]="country.profileUrl??'default-profile.png'" [class]="" style="width: 18px" />
+            <div>{{ country.label }}</div>
+          </div>
+        </ng-template>
+      </p-listbox>
+
       <div *ngIf="shareForm.get('sharedUsersId')?.hasError('required') && shareForm.get('sharedUsersId')?.touched">
         <small class="p-error">Debes seleccionar al menos una opción.</small>
       </div>
     </div>
     <br>
-    <div class="flex-container" *ngFor="let user of options">
-      <p-avatar
-          image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-          shape="circle" />
-      <span class="font-bold">
-         {{user.label}}
-         <p-checkbox
-          [(ngModel)]="isChecked"
-          [binary]="true"
-                                                         inputId="binary" />
-      </span>
-  </div>
     <button type="submit" class="submit" pButton label="Compartir" [disabled]="shareForm.invalid"></button>
-    <button  pButton label="Salir" severity="danger" class="w100 mt-5" (click)="onDialogClose()"></button>
+    <button pButton label="Salir" severity="danger" class="w100 mt-5" (click)="onDialogClose()"></button>
   </form>
   <h3>Compartido con:</h3>
   <!-- share-moment.component.html -->
   <div class="scroll-container">
     <div *ngFor="let user of moment?.sharedWith" class="list-item">
-      <p class="flex-container">
-        {{user.userName}}<i (click)="deleteSharedUser(user.userId)" class="pi pi-times red-color cursor-pointer "></i>
-      </p>
+      <div class="flex-container">
+        <p-avatar [image]="user.profileUrl??'default-profile.png'" shape="circle" />
+        <span class="font-bold">
+          {{user.userName}}
+        </span>
+        <i (click)="deleteSharedUser(user.userId)" class="pi pi-times red-color cursor-pointer "></i>
+      </div>
     </div>
   </div>
 </div>

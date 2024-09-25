@@ -1,6 +1,7 @@
 <div *ngIf="user" >
- <div class="user-profile card" *ngIf="!isEditMode">
-  <img *ngIf="user.profile" [src]="user.profile.url" alt="Foto de perfil" class="profile-picture">
+ <div class="user-profile custom-card" *ngIf="!isEditMode">
+  <div class="content">
+    <img *ngIf="user.profile" [src]="user.profile.url" alt="Foto de perfil" class="profile-picture">
   <div class="user-info">
     <p><strong>Nombre:</strong> {{ user.name }}</p>
     <p><strong>Correo:</strong> {{ user.email }}</p>
@@ -8,8 +9,10 @@
     <p><strong>Fecha de nacimiento:</strong> {{ user.dateOfBirth | date }}</p>
   </div>
   <button pButton   label="Editar" class="w100" (click)="isEditMode = !isEditMode"></button>
+  </div>
  </div>
-  <div class="default-form-container card" *ngIf="isEditMode">
+  <div class="default-form-container custom-card" *ngIf="isEditMode">
+   <div class="content">
     <div class="user-profile">
       <img *ngIf="user.profile" [src]="user.profile.url" alt="Foto de perfil" class="profile-picture">
     </div>
@@ -50,6 +53,7 @@
       [multiple]="false" (fileSelected)="handleFileSelected($event)"></app-file-upload>
       <button pButton type="submit" label="Guardar" class="w100" [disabled]="userForm.invalid"></button>
     </form>
+   </div>
   </div>
 </div>
 

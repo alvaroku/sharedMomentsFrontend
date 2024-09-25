@@ -54,7 +54,8 @@ export class MomentListComponent implements OnInit {
 
   createMoment(): void {
     this.ref = this.dialogService.open(CreateMomentComponent, {
-      header: 'Nuevo'
+      header: 'Nuevo',
+      data: {albumId: this.albumId}
   });
   this.ref.onClose.subscribe(async (result: any) => {
     if (result) {

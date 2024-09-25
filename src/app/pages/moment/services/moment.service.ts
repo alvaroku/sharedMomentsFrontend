@@ -52,7 +52,9 @@ export class MomentService {
     formData.append('description', data.description);
     formData.append('date', this.appendFormattedDate(data.date));
     formData.append('place', data.place);
-
+    if(data.albumId){
+      formData.append('albumId', data.albumId);
+    }
     fileList.forEach(file => {
       formData.append('resources', file);
     });

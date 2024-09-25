@@ -6,5 +6,6 @@ export interface AlbumResponse{
   description:string;
   ownerId:string;
   ownerName:string;
+  profileUrl?:string;
   sharedWith:AlbumUserResponse  [];
 }

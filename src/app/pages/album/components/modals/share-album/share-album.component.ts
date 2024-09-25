@@ -15,11 +15,13 @@ import { CommonModule } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';
 import { DataDropDownUser } from '../../../../user/models/data-drop-down-user.model';
+import { ListboxModule } from 'primeng/listbox';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-share-album',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule],
+  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,ListboxModule,AvatarModule],
   templateUrl: './share-album.component.html',
   styleUrl: './share-album.component.css'
 })

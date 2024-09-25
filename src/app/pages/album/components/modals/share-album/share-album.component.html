@@ -3,14 +3,15 @@
   <form [formGroup]="shareForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="options">Selecciona opciones</label>
-      <p-multiSelect
-        id="options"
-        [options]="options"
-        optionLabel="label"
-        formControlName="sharedUsersId"
-        placeholder="Selecciona opciones"
-        >
-      </p-multiSelect>
+       <p-listbox [options]="options" [multiple]="true" formControlName="sharedUsersId" filter="true" optionLabel="label"
+        [listStyle]="{ 'max-height': '250px' }" [style]="{ width: '15rem' }" [listStyle]="{'max-height': '220px'}">
+        <ng-template let-country pTemplate="item">
+          <div class="flex-container">
+            <img [src]="country.profileUrl??'default-profile.png'" [class]="" style="width: 18px" />
+            <div>{{ country.label }}</div>
+          </div>
+        </ng-template>
+      </p-listbox>
       <div *ngIf="shareForm.get('sharedUsersId')?.hasError('required') && shareForm.get('sharedUsersId')?.touched">
         <small class="p-error">Debes seleccionar al menos una opción.</small>
       </div>
@@ -23,9 +24,13 @@
   <!-- share-moment.component.html -->
   <div class="scroll-container">
     <div *ngFor="let user of album?.sharedWith" class="list-item">
-      <p class="flex-container">
-        {{user.userName}}<i (click)="deleteSharedUser(user.userId)" class="pi pi-times red-color cursor-pointer "></i>
-      </p>
+      <div class="flex-container">
+        <p-avatar [image]="user.profileUrl??'default-profile.png'" shape="circle" />
+        <span class="font-bold">
+          {{user.userName}}
+        </span>
+        <i (click)="deleteSharedUser(user.userId)" class="pi pi-times red-color cursor-pointer "></i>
+      </div>
     </div>
   </div>
 </div>

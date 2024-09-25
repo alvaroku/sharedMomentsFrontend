@@ -19,11 +19,12 @@ import { MomentUserResponse } from '../../models/moment-user-response.model';
 import { ShareMomentResponse } from '../../models/share-moment-response.model';
 import { AddToAlbumComponent } from '../modals/add-to-album/add-to-album.component';
 import { AddToAlbumResponse } from '../../models/add-to-album-response.model';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-moment-card',
   standalone: true,
-  imports: [CommonModule,ButtonModule,GalleriaModule ],
+  imports: [CommonModule,ButtonModule,GalleriaModule,AvatarModule ],
   templateUrl: './moment-card.component.html',
   styleUrl: './moment-card.component.css',
   providers: []

@@ -1,13 +1,22 @@
-<div class="flex-container">
-  <p-avatar
-      [image]="user.profileUrl??'default-profile.png'"
-      shape="circle" />
-  <span class="font-bold">
-     {{user.label}}
-  </span>
-  <span>&nbsp;</span><p-button *ngIf="user.status==undefined" icon="pi pi-user-plus" [rounded]="true" (onClick)="sendFriendRequest()"/>
-  <span>&nbsp;</span><p-button *ngIf="user.status==requestStatus.accepted" icon="pi pi-times" [rounded]="true" (onClick)="deleteFromFriends()"severity="danger" />
-  <span>&nbsp;</span><p-button *ngIf="user.status==requestStatus.sent" icon="pi pi-times" [rounded]="true" (onClick)="deleteFriendRequest()"severity="danger" />
-  <span>&nbsp;</span> <p-button *ngIf="user.status==requestStatus.sent && !imOwner"  icon="pi pi-check" [rounded]="true" (onClick)="acceptFriendRequest()" />
-</div>
+<div class="custom-card ">
+  <div class="content">
+    <div class="flex-container">
+      <img [src]="user.profileUrl??'default-profile.png'" class="profile-picture" />
+      <span>&nbsp;</span>
+      <span class="font-bold fz-1rem">
+        {{user.label}}
+      </span>
 
+      <span>&nbsp;</span><p-button *ngIf="user.status==undefined" icon="pi pi-user-plus" [rounded]="true"
+        (onClick)="sendFriendRequest()" />
+      <span>&nbsp;</span><p-button *ngIf="user.status==requestStatus.accepted" icon="pi pi-times" [rounded]="true"
+        (onClick)="deleteFromFriends()" severity="danger" />
+      <span>&nbsp;</span><p-button *ngIf="user.status==requestStatus.sent" icon="pi pi-times" [rounded]="true"
+        (onClick)="deleteFriendRequest()" severity="danger" />
+      <span>&nbsp;</span> <p-button *ngIf="user.status==requestStatus.sent && !imOwner" icon="pi pi-check"
+        [rounded]="true" (onClick)="acceptFriendRequest()" />
+
+    </div>
+  </div>
+</div>
+<br>

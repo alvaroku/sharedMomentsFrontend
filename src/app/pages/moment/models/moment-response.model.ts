@@ -9,6 +9,7 @@ export interface MomentResponse {
   place: string;
   ownerId: string;
   ownerName: string;
+  profileUrl?: string;
   albumId?: string;
   album?: string;
   resources: ResourceResponse[];

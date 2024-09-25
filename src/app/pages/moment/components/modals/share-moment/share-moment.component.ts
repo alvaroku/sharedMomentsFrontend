@@ -18,11 +18,12 @@ import { ToastModule } from 'primeng/toast';
 import { AvatarModule } from 'primeng/avatar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DataDropDownUser } from '../../../../user/models/data-drop-down-user.model';
+import { ListboxModule } from 'primeng/listbox';
 
 @Component({
   selector: 'app-share-moment',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,AvatarModule,CheckboxModule,FormsModule],
+  imports: [CommonModule,ReactiveFormsModule,MultiSelectModule,ButtonModule,AvatarModule,CheckboxModule,FormsModule,ListboxModule ],
   templateUrl: './share-moment.component.html',
   styleUrl: './share-moment.component.css'
 })

@@ -1,10 +1,17 @@
-<h1>Amigos</h1>
-<app-user-card
+<p class="title">Lista de amigos</p>
+<span *ngIf="friends&&friends.length==0">Lista de amigos vacía</span>
+<div class="grid-container">
+  <app-user-card
   *ngFor="let f of friends"
   [user]="f" (deleteFromFriendResult)="deleteFromFriendResult($event)"
   ></app-user-card>
-<h1>Usuarios</h1>
-<app-user-card
-  (acceptFriendrequestResult)="acceptFriendrequestResult($event)"
-  *ngFor="let f of noFriends"
-  [user]="f"></app-user-card>
+</div>
+
+<p class="title">Usuarios</p>
+<span *ngIf="noFriends&& noFriends.length==0">No hay usuarios disponibles</span>
+<div class="grid-container">
+  <app-user-card
+    (acceptFriendrequestResult)="acceptFriendrequestResult($event)"
+    *ngFor="let f of noFriends"
+    [user]="f"></app-user-card>
+</div>

@@ -12,11 +12,12 @@ import { firstValueFrom } from 'rxjs';
 import { ResultPattern } from '../../../../shared/models/result-pattern.model';
 import { ShareAlbumResponse } from '../../models/share-album-response.model';
 import { Router } from '@angular/router';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-album-card',
   standalone: true,
-  imports: [CommonModule,ButtonModule, ],
+  imports: [CommonModule,ButtonModule,AvatarModule ],
   templateUrl: './album-card.component.html',
   styleUrl: './album-card.component.css'
 })

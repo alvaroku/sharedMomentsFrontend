@@ -41,7 +41,7 @@ export class CreateMomentComponent {
   preloadedImages: any[] = [];
   ///moment: any = null;
   id: string | null = null;
-
+  albumId?:string;
   constructor(
     private fb: FormBuilder,
     private momentService: MomentService,
@@ -65,6 +65,8 @@ export class CreateMomentComponent {
     if (this.id) {
       this.loadForUpdate();
     }
+    this.albumId = this.config.data.albumId
+
   }
 
   onFileSelect(event: any): void {
@@ -88,7 +90,7 @@ export class CreateMomentComponent {
     }
 
      let request: MomentRequest = this.momentForm.value
-
+     request.albumId = this.albumId;
     try {
       this.showLoading();
       let response:ResultPattern<MomentResponse>;

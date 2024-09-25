@@ -36,7 +36,7 @@
 
   <div  >
     <label for="dateOfBirth">Date of Birth</label>
-    <p-calendar id="dateOfBirth" formControlName="dateOfBirth" dateFormat="yy-mm-dd"></p-calendar>
+    <p-calendar id="dateOfBirth" formControlName="dateOfBirth" dateFormat="dd/mm/yy"></p-calendar>
     <div *ngIf="userForm.get('dateOfBirth')?.invalid && userForm.get('dateOfBirth')?.touched">
       <small class="p-error">Date of Birth is required.</small>
     </div>
