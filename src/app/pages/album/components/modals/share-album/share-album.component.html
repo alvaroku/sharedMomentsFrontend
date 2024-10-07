@@ -7,8 +7,8 @@
         [listStyle]="{ 'max-height': '250px' }" [style]="{ width: '15rem' }" [listStyle]="{'max-height': '220px'}">
         <ng-template let-country pTemplate="item">
           <div class="flex-container">
-            <img [src]="country.profileUrl??'default-profile.png'" [class]="" style="width: 18px" />
-            <div>{{ country.label }}</div>
+            <img [src]="country.profileUrl??'default-profile.png'" class="profile-picture" style="  width: 35px; height: 35px;" />
+           &nbsp; <div>{{ country.label }}</div>
           </div>
         </ng-template>
       </p-listbox>
@@ -25,8 +25,8 @@
   <div class="scroll-container">
     <div *ngFor="let user of album?.sharedWith" class="list-item">
       <div class="flex-container">
-        <p-avatar [image]="user.profileUrl??'default-profile.png'" shape="circle" />
-        <span class="font-bold">
+        <img [src]="user.profileUrl??'default-profile.png'" class="profile-picture" style=" width: 35px; height: 35px;" />
+        &nbsp;  <span class="font-bold">
           {{user.userName}}
         </span>
         <i (click)="deleteSharedUser(user.userId)" class="pi pi-times red-color cursor-pointer "></i>
