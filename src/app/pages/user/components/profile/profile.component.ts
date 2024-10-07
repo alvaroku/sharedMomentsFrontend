@@ -14,6 +14,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProfileRequest } from '../../models/profile-request.model';
 import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
+import { ChangePasswordComponent } from '../modals/change-password/change-password.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +31,9 @@ export class ProfileComponent implements OnInit {
   user!: ProfileResponse
 
   isEditMode = false;
-  constructor(private profileService: ProfileService, private messageService: MessageService,private fb: FormBuilder,) {
+
+  ref: DynamicDialogRef<ChangePasswordComponent> | undefined;
+  constructor(private profileService: ProfileService, private messageService: MessageService,private fb: FormBuilder,public dialogService: DialogService) {
 
   }
   async ngOnInit() {
@@ -74,5 +78,10 @@ export class ProfileComponent implements OnInit {
       this.isEditMode = !this.isEditMode
       this.isLoading = false
     }
+  }
+  showModalChangePassword(){
+    this.ref = this.dialogService.open(ChangePasswordComponent, {
+      header: 'Cambiar contraseña'
+  });
   }
 }

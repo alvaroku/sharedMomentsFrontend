@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { LOCAL_STORAGE_CONSTANTS } from '../../../../shared/constants/local-storage.constants';
 import { Router } from '@angular/router';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-login',
@@ -19,12 +20,14 @@ import { Router } from '@angular/router';
     CommonModule,
     ReactiveFormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    LoadingComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  isLoading: boolean = false;
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder,private authService: AuthService,private ls:LocalStorageService,private router: Router) {
@@ -46,13 +49,17 @@ export class LoginComponent {
  async  onSubmit() {
     if (this.loginForm.valid) {
       try {
+      this.isLoading = true;
         const loginRequest: LoginRequest = this.loginForm.value;
       let response:ResultPattern<LoginResponse> = await firstValueFrom(this.authService.login(loginRequest))
       this.ls.setItem(LOCAL_STORAGE_CONSTANTS.USER_KEY,response.data);
       this.authService.setCurrentUserState = response.data;
+      this.isLoading = false;
       this.router.navigate(['/home']);
       } catch (error) {
 
+      }finally{
+        this.isLoading = false;
       }
     }
   }

@@ -10,6 +10,8 @@
     <p><strong>Fecha de nacimiento:</strong> {{ user.dateOfBirth | date }}</p>
   </div>
   <button pButton   label="Editar" class="w100" (click)="isEditMode = !isEditMode"></button>
+
+  <button pButton   label="Cambiar contraseña" class="w100 p-button-success mt-5" (click)="showModalChangePassword()"></button>
   </div>
  </div>
   <div class="default-form-container custom-card" *ngIf="isEditMode">
@@ -52,7 +54,8 @@
       </div>
       <app-file-upload [uploadText]="(user.profile)?'Actualizar perfil':'Subir foto'" allowedFileTypes="image/*"
       [multiple]="false" (fileSelected)="handleFileSelected($event)"></app-file-upload>
-      <button pButton type="submit" label="Guardar" class="w100" [disabled]="userForm.invalid"></button>
+      <button pButton type="submit" label="Guardar" class="w100 mt-5" [disabled]="userForm.invalid"></button>
+      <button pButton label="Cancelar" (click)="isEditMode=false;" severity="secondary" class="w100 mt-5"></button>
     </form>
    </div>
   </div>

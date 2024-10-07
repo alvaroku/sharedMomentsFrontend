@@ -11,6 +11,7 @@ import { SharedAlbumsComponent } from './pages/album/components/shared-albums/sh
 import { ProfileComponent } from './pages/user/components/profile/profile.component';
 import { MomentsByAlbumComponent } from './pages/moment/components/moments-by-album/moments-by-album.component';
 import { FriendsComponent } from './pages/user/components/friends/friends.component';
+import { RecoveryPasswordComponent } from './pages/auth/components/recovery-password/recovery-password.component';
 
 
 export const routes: Routes = [
@@ -40,6 +41,7 @@ export const routes: Routes = [
      children: [
        { path: 'login', component: LoginComponent },
        { path: 'register', component: RegisterComponent },
+       { path: 'recovery-password', component: RecoveryPasswordComponent },
        // Otras rutas que no necesiten el menú
      ]
   },

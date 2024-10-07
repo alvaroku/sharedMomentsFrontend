@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 import { LOCAL_STORAGE_CONSTANTS } from '../../../../shared/constants/local-storage.constants';
 import { Router } from '@angular/router';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-register',
@@ -23,11 +24,13 @@ import { Router } from '@angular/router';
     DropdownModule,
     InputTextModule,
     ButtonModule,
-    CalendarModule],
+    CalendarModule,
+  LoadingComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  isLoading: boolean = false;
   userForm: FormGroup;
   roles = [
     { label: 'Admin', value: 'admin' },
@@ -58,10 +61,12 @@ export class RegisterComponent {
 
  async onSubmit() {
     if (this.userForm.valid) {
+      this.isLoading = true;
       const userRequest: UserRequest = this.userForm.value;
       let response:ResultPattern<UserResponse> = await firstValueFrom(this.authService.register(userRequest));
       this.ls.setItem(LOCAL_STORAGE_CONSTANTS.USER_KEY,response.data);
       this.authService.setCurrentUserState = response.data;
+      this.isLoading = false;
       this.router.navigate(['/home']);
     }
   }

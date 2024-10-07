@@ -4,4 +4,5 @@ export interface LoginResponse {
   email: string;
   phoneNumber: string;
   token: string;
+  profilePicture?: string;
 }
