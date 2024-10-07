@@ -4,10 +4,10 @@
   <p-sidebar [(visible)]="sidebarVisible">
       <ng-template pTemplate="header">
           <div class="flex-container">
-              <p-avatar
-                  [image]="(currentUser | async)?.profilePicture?? 'default-profile.png'"
-                  shape="circle" />
-              <span class="font-bold">
+              <img
+                  [src]="(currentUser | async)?.profilePicture?? 'default-profile.png'"
+                  class="profile-picture" style="width: 35px; height: 35px;" />
+              &nbsp;<span class="font-bold">
                  {{(currentUser | async)?.name}}
               </span>
           </div>
