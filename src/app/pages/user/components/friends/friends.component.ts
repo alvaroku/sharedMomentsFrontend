@@ -45,6 +45,6 @@ export class FriendsComponent implements OnInit {
     let user:UserFriendRequest = this.noFriends.find(x => x.id === data.friendId) as UserFriendRequest
     user.status = data.status;
     this.friends.push(user);
-    this.noFriends = this.friends.filter(x => x.id !== data.friendId);
+    this.noFriends = this.noFriends.filter(x => x.id !== data.friendId);
   }
 }

@@ -61,13 +61,19 @@ export class RegisterComponent {
 
  async onSubmit() {
     if (this.userForm.valid) {
-      this.isLoading = true;
+      try {
+        this.isLoading = true;
       const userRequest: UserRequest = this.userForm.value;
       let response:ResultPattern<UserResponse> = await firstValueFrom(this.authService.register(userRequest));
       this.ls.setItem(LOCAL_STORAGE_CONSTANTS.USER_KEY,response.data);
       this.authService.setCurrentUserState = response.data;
-      this.isLoading = false;
+
       this.router.navigate(['/home']);
+      } catch (error) {
+
+      }finally{
+        this.isLoading = false;
+      }
     }
   }
 }
