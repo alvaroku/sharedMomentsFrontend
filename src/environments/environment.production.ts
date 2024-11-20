@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   envName: 'production',
-  api: 'https://amsharedmoments.somee.com/api/',
+  api: 'https://vmi2255340.contaboserver.net:3001/api/',
 }
